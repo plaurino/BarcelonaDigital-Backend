@@ -1,0 +1,15 @@
+<md-button aria-label="" ng-click="toggle()">
+    <md-icon aria-label="Acciones" class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
+</md-button>
+<div ng-show="visible" class="menu-list md-whiteframe-z5">
+    <md-subheader>Acciones</md-subheader>
+    <md-divider inset></md-divider>
+    <md-list>
+        <md-list-item ng-repeat="action in actionList">
+            <md-item-content ng-class="action.class" ng-click="action.click($event, item)" class="md-tile-content md-button md-default-theme" md-ink-ripple>
+                    {{action.label}}
+            </md-item-content>
+            <md-divider ng-if="$index !== (actions.length-1)" inset></md-divider>
+        </md-list-item>
+    </md-list>
+</div>

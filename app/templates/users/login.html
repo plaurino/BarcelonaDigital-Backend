@@ -1,0 +1,26 @@
+<div layout="column" layout-align="center center">
+    <h1>Login</h1>
+    <div class="login-container" layout="row" layout-align="center center">
+        <div class="md-whiteframe-z3"  flex-gt-lg="40" flex-gt-md="60" flex-gt-sm="80" flex-sm="98" >
+            <form name="loginForm" ng-submit="login(credentials)">
+                <md-input-container>
+                    <label>Email</label>
+                    <input type="email" name="email" ng-model="credentials.username" required>
+                    <div ng-messages="loginForm.email.$error">
+                        <div ng-message="required">Este campo es requerido.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Contraseña</label>
+                    <input type="password"  name="password" ng-model="credentials.password" required>
+                    <div ng-messages="loginForm.password.$error">
+                        <div ng-message="required">Este campo es requerido</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <md-button>Login</md-button>
+                </md-input-container>
+            </form>
+        </div>
+    </div>
+</div>

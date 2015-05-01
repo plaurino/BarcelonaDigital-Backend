@@ -1,0 +1,60 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.bd .md-sidenav-left .logotype {
+  height: 45px;
+  margin: auto;
+}
+
+.bd .menu li {
+  list-style: none;
+  cursor: pointer;
+}
+
+.bd .menu a.md-button {
+  display: block;
+  font-weight: 400;
+  text-transform: none;
+  padding: 20px;
+  font-size: 15px;
+}
+
+.bd .login-container {
+  width: 100%;
+}
+
+.bd .login-container .md-whiteframe-z3 {
+  padding: 25px 25px 0 25px;
+}
+
+.bd .md-toolbar-tools .title {
+  margin-left: 10px;
+}
+
+.bd .main-content {
+  background-color: #efefef;
+}
+
+md-card {
+  background-color: #fff;
+}
+
+popup-menu .menu-list {
+  position: absolute;
+  right: 0px;
+  background-color: #fff;
+  z-index: 100;
+  min-width: 225px;
+}
+
+popup-menu .menu-list .md-button {
+  font-size: 12px;
+}
+
+.promotion-actions md-list {
+  width: 200px;
+  float: right;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,16 @@
+<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-lg')">
+    <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">
+            <a ng-href="/#/" layout="row" flex class="logo" ng-click="site.openPage()">
+                <img class="logotype" src="/assets/img/logo.png" alt="Barcelona Digital"></img>
+            </a>
+        </h1>
+    </md-toolbar>
+    <md-content class="md-padding" flex role="navigation">
+        <ul class="menu">
+            <li ng-repeat="section in sections" class="list-item">
+                <menu-link section="section" ng-if="section.type === 'link' && section.public !== session.isAuthenticated()"></menu-link>
+            </li>
+        </ul>
+    </md-content>
+</md-sidenav>
