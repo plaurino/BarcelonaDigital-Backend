@@ -22,7 +22,7 @@
                 .success(function(res){
                    $scope.promotions = res.promotions;
                 })
-                .error(function(res){
+                .error(function(){
                     $mdToast.show(
                         $mdToast.simple()
                             .content('Ha ocurrido un error intentalo nuevamente mas tarde.')

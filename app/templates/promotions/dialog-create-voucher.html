@@ -1,0 +1,52 @@
+<md-dialog aria-label="Agregar voucher">
+    <form name="editForm">
+    <md-dialog-content class="sticky-container">
+        <md-subheader class="md-sticky-no-effect">Agregar voucher</md-subheader>
+        <md-content>
+                <div layout>
+                    <md-input-container flex>
+                        <label>Código</label>
+                        <input type="text" name="coupon_code" ng-model="voucher.coupon_code" required md-maxlength="20" minlength="8">
+                        <div ng-messages="editForm.coupon_code.$error">
+                            <div ng-message="required" ng-show="editForm.coupon_code.$error.required">Este campo es requerido.</div>
+                            <div ng-message="minlength" ng-show="editForm.coupon_code.$error.minlength">Debe ingresar como minimo 8 caracteres.</div>
+                            <div ng-message="md-maxlength" ng-show="editForm.coupon_code.$error.maxlength">No puede ingresar mas de 20 caracteres.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout="row">
+                    <md-input-container flex>
+                        <label>Límite de uso</label>
+                        <input type="number" name="limit_of_use" ng-model="voucher.limit_of_use" required min="0" max="999">
+                        <div ng-messages="editForm.limit_of_use.$error">
+                            <div ng-message="required" ng-show="editForm.limit_of_use.$error.required">Este campo es requerido.</div>
+                            <div ng-message="min" ng-show="editForm.limit_of_use.$error.min">El valor minimo permitido es 0.</div>
+                            <div ng-message="max" ng-show="editForm.limit_of_use.$error.max">El valor maximo permitido es 999.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout>
+                    <md-input-container flex>
+                        <label>Fecha de vencimiento</label>
+                        <input type="date" name="expired_at" ng-model="voucher.expired_at" required min="{{validators.expired_at_min}}">
+                        <div ng-messages="editForm.expired_at.$error">
+                            <div ng-message="required" ng-show="editForm.expired_at.$error.required">Este campo es requerido.</div>
+                            <div ng-message="min" ng-show="editForm.expired_at.$error.min">La fecha ingresada no puede ser menor a la actual.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+        </md-content>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+        <span flex></span>
+        <md-button ng-click="save()" class="md-primary md-raised">
+            Agregar
+        </md-button>
+        <md-button ng-click="cancel()" class="md-warn md-raised">
+            Cancelar
+        </md-button>
+    </div>
+    </form>
+</md-dialog>

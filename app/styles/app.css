@@ -58,3 +58,15 @@ popup-menu .menu-list .md-button {
   float: right;
   margin-bottom: 10px;
 }
+
+.voucher-list {
+  margin-top: 30px;
+}
+
+.bd .md-accent .md-fab-top-right {
+  top: 30px;
+}
+
+.promotion-edit-container {
+  margin-top: 15px;
+}

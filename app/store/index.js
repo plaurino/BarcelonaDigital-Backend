@@ -6,3 +6,4 @@ app.factory('menuService',require('./menu'));
 app.factory('localStorageService',require('./localStorage'));
 app.factory('promotionService', require('./promotion'));
 app.factory('subscriptionService', require('./subscription'));
+app.factory('voucherService', require('./voucher'));

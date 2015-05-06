@@ -10,7 +10,7 @@
 /* @ngInject */
 
 (function() {
-    module.exports = function($scope, $routeParams, $mdToast, promotionService, subscriptionService) {
+    module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, promotionService, subscriptionService, voucherService) {
 
         $scope.promotion_types = [
             {
@@ -47,6 +47,12 @@
                 .success(function(res){
                     $scope.promotion = res.promotion;
                     $scope.promotion.expired_at = new Date($scope.promotion.expired_at);
+                    angular.forEach($scope.promotion.coupons, function(value, index){
+                        voucherService.get(value).success(function(res){
+                            res.voucher.expired_at = new Date(res.voucher.expired_at).toISOString().slice(0, 10);
+                            $scope.promotion.coupons[index] = res.voucher;
+                        });
+                    });
                 })
                 .error(function(){
                     $mdToast.show(
@@ -89,9 +95,124 @@
             }
         });
 
-        $scope.$watch('promotion.coupon_type', function() {
+        //$scope.$watch('promotion.coupon_type', function() {
             //console.log($scope.promotion);
-        });
+        //});
+
+        $scope.showActions = function($event, voucher) {
+            $mdBottomSheet.show({
+                templateUrl: 'templates/promotions/bottom-sheet-action-voucher-edit.html',
+                controller: function($scope){
+                    $scope.edit = function () {
+
+                        $mdBottomSheet.hide();
+                    };
+
+                    $scope.delete = function() {
+
+                        $mdBottomSheet.hide();
+                    };
+                },
+                targetEvent: $event
+            });
+        };
+
+        $scope.addVoucher = function($event, promotion_id) {
+            var selfScope = $scope;
+
+            $mdDialog.show({
+                controller: function($scope) {
+
+                    $scope.voucher = {};
+
+                    $scope.validators = [];
+                    $scope.validators['expired_at_min'] = new Date().toISOString().slice(0, 10);
+
+                    $scope.cancel = function() {
+                        $mdDialog.hide();
+                    };
+
+                    $scope.save = function() {
+                        if(!$scope.voucher.coupon_code || !$scope.voucher.limit_of_use || !$scope.voucher.expired_at)
+                            return;
+
+                        $scope.voucher.days_of_validity = $scope.dayDiff(new Date(), new Date($scope.voucher.expired_at));
+                        $scope.voucher.promotion_id = promotion_id;
+
+                        voucherService.add($scope.voucher)
+                            .success(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('El voucher se agrego exitosamente.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                                selfScope.init();
+                                $mdDialog.hide();
+                            })
+                            .error(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Ha ocurrido un error. ' + res.error)
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                            });
+                    };
+
+                    $scope.dayDiff = function(fromDate, toDate) {
+                            var t2 = toDate.getTime();
+                            var t1 = fromDate.getTime();
+
+                            return parseInt((t2-t1)/(24*3600*1000)) + 1;
+                    };
+
+                    $scope.checkCouponType = function(){
+                      if(selfScope.promotion.coupon_type === 'self_generated') {
+                          var coupon_code = $scope.generateCode(20);
+                          $scope.voucher.coupon_code = coupon_code;
+                      } else {
+                          $scope.voucher.coupon_code = '';
+                      }
+                    };
+
+                    $scope.generateCode = function (len, charSet) {
+                        charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                        var randomString = '';
+                        for (var i = 0; i < len; i++) {
+                            var randomPoz = Math.floor(Math.random() * charSet.length);
+                            randomString += charSet.substring(randomPoz,randomPoz+1);
+                        }
+                        return randomString;
+                    };
+
+                    $scope.checkCouponType();
+                },
+                templateUrl: 'templates/promotions/dialog-create-voucher.html',
+                targetEvent: $event
+            });
+        };
+
+        $scope.voucherActive = function(voucher) {
+            voucherService.active(voucher)
+                .success(function(res){
+                    var status = (res.voucher.active ? 'activado' : 'desactivado');
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Se ha ' + status +  ' exitosamente el voucher.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                })
+                .error(function(res){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                });
+        };
 
         $scope.init();
 

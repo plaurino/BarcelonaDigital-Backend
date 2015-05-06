@@ -1,34 +1,46 @@
 <div layout="row" flex layout-fill layout-align="center center">
     <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
         <md-card-content>
-            <md-list>
-                <md-subheader>Promociones</md-subheader>
-                <md-divider inset></md-divider>
-                <md-list-item ng-repeat="promotion in promotions">
-                    <md-item-content>
-                        <div class="md-tile-content">
-                            <h3>{{promotion.name}}</h3>
-                            <h4>{{promotion.description}}</h4>
-                            <p>{{promotion.coupons.length}} cupones de descuento.</p>
-                        </div>
-                        <div class="md-lite-right">
-                            <md-button aria-label="" ng-click="showActions($event, promotion)">
-                                <md-icon aria-label="Acciones" class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
-                            </md-button>
-                        </div>
-                    </md-item-content>
-                    <md-divider ng-if="$index !== (promotions.length-1)" inset></md-divider>
-                </md-list-item>
-            </md-list>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Lista de promociones</span>
+                </h2>
+                <span flex></span>
+                <md-button class="md-fab md-fab-top-right md-primary">
+                    <md-icon aria-label="Agregar promoción" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
+                    <md-tooltip>
+                        Agregar promoción
+                    </md-tooltip>
+                </md-button>
+            </md-toolbar>
+            <md-content>
+                <md-list>
+                    <md-list-item ng-repeat="promotion in promotions">
+                        <md-item-content>
+                            <div class="md-tile-content">
+                                <h3>{{promotion.name}}</h3>
+                                <h4>{{promotion.description}}</h4>
+                                <p>{{promotion.coupons.length}} cupones de descuento.</p>
+                            </div>
+                            <div class="md-lite-right">
+                                <md-button aria-label="" ng-click="showActions($event, promotion)">
+                                    <md-icon aria-label="Acciones" class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
+                                </md-button>
+                            </div>
+                        </md-item-content>
+                        <md-divider ng-if="$index !== (promotions.length-1)" inset></md-divider>
+                    </md-list-item>
+                </md-list>
+            </md-content>
         </md-card-content>
     </md-card>
 
-    <div class="controls">
+    <!--<div class="controls">
         <md-button class="md-fab md-fab-bottom-right md-warn">
             <md-icon aria-label="Agregar promoción" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
             <md-tooltip>
                 Agregar promoción
             </md-tooltip>
         </md-button>
-    </div>
+    </div>-->
 </div>
