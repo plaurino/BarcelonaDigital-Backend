@@ -30,6 +30,15 @@
  */
 var CONSTANTS;
 CONSTANTS = {
-  "api_url": "http://barcelonadigital-dev.com:3000"
+  "development" : {
+    "api_url": "http://barcelonadigital-dev.com:3000"
+  },
+  "production": {
+    "api_url": "http://kioskobarcelona-otalegre.rhcloud.com"
+  }
 };
-module.exports = CONSTANTS;
+var env = CONSTANTS.development || {};
+if( process.env.NODE_ENV == 'production') {
+  env = CONSTANTS.production;
+}
+module.exports = env;

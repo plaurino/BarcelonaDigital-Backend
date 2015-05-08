@@ -1,7 +1,6 @@
-<div layout="column" layout-align="center center">
-    <h1>Login</h1>
-    <div class="login-container" layout="row" layout-align="center center">
-        <div class="md-whiteframe-z3"  flex-gt-lg="40" flex-gt-md="60" flex-gt-sm="80" flex-sm="98" >
+<div layout="row" flex layout-fill layout-align="center center">
+    <md-card flex-sm="98" flex-gt-sm="70" flex-gt-md="50" flex-gt-lg="40">
+        <md-card-content>
             <form name="loginForm" ng-submit="login(credentials)">
                 <md-input-container>
                     <label>Email</label>
@@ -21,6 +20,6 @@
                     <md-button>Login</md-button>
                 </md-input-container>
             </form>
-        </div>
-    </div>
+        </md-card-content>
+    </md-card>
 </div>
