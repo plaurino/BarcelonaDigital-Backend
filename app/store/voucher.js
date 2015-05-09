@@ -27,8 +27,16 @@
             return $http.post(factory.api_url + '/vouchers/', { voucher: voucher });
         };
 
-        factory.active = function (voucher) {
+        factory.activate = function (voucher) {
             return $http.post(factory.api_url + '/vouchers/' + voucher._id + '/activate', { voucher: voucher })
+        };
+
+        factory.delete = function (voucher) {
+            return $http.delete(factory.api_url + '/vouchers/' + voucher._id);
+        };
+
+        factory.edit = function (voucher) {
+            return $http.post(factory.api_url + '/vouchers/' + voucher._id, { voucher: voucher });
         };
 
         return factory;

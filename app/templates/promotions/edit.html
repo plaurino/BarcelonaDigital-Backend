@@ -8,7 +8,7 @@
             </md-toolbar>
             <md-content>
                 <div class="promotion-edit-container">
-                    <form name="editForm" ng-submit="edit(promotion)">
+                    <form name="editForm" ng-submit="submit(true)">
 
                         <div layout>
                             <md-input-container flex-sm="100"  flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="70">
@@ -91,7 +91,7 @@
                                     <span>Vouchers</span>
                                 </h2>
                                 <span flex></span>
-                                <md-button class="md-fab md-fab-top-right md-primary" ng-click="addVoucher($event, promotion._id)">
+                                <md-button class="md-fab md-fab-top-right md-primary" type="button" ng-click="addVoucher($event, promotion._id)">
                                     <md-icon aria-label="Agregar voucher" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
                                     <md-tooltip>
                                         Agregar voucher
@@ -108,10 +108,10 @@
                                                 <p>Vence el {{voucher.expired_at}}.</p>
                                             </div>
                                             <div class="md-lite-right">
-                                                <md-switch ng-model="voucher.active" aria-label="Activo" ng-change="voucherActive(voucher)"></md-switch>
+                                                <md-switch ng-model="voucher.active" aria-label="Activo" ng-change="voucherActivate(voucher)"></md-switch>
                                             </div>
                                             <div class="md-lite-right">
-                                                <md-button aria-label="" ng-click="showActions($event, voucher)">
+                                                <md-button aria-label="" type="button" ng-click="showActions($event, voucher)">
                                                     <md-icon aria-label="Acciones" class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
                                                 </md-button>
                                             </div>
@@ -122,7 +122,11 @@
                             </md-content>
                         </div>
 
-                        <div layout>
+                        <div layout class="actions">
+                            <div flex></div>
+                            <md-input-container>
+                                <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
+                            </md-input-container>
                             <md-input-container>
                                 <md-button>Guardar</md-button>
                             </md-input-container>

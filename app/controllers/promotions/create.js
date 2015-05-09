@@ -10,10 +10,351 @@
 /* @ngInject */
 
 (function() {
-    module.exports = function($scope, promotionService) {
+    module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, $location, promotionService, subscriptionService, voucherService) {
+
+        $scope.promotion_types = promotionService.promotion_types;
+        $scope.coupon_types = promotionService.coupon_types;
+        $scope.subscription_plan_types = [];
+
+        $scope.validators = [];
+        $scope.validators['expired_at_min'] = new Date().toISOString().slice(0, 10);
+
+        $scope.promotion = {};
+
+        $scope.init = function() {
+
+            subscriptionService.getAll()
+                .success(function(res){
+                    var arr = [];
+                    for (var prop in res) {
+                        arr.push(res[prop]);
+                    }
+                    $scope.subscription_plan_types = arr;
+                })
+                .error(function(){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Ha ocurrido un error al cargar los planes de suscription. Intentalo nuevamente mas tarde.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                });
+
+            if($scope.promotion._id) {
+
+                promotionService.get($scope.promotion._id)
+                    .success(function(res){
+                        $scope.promotion = res.promotion;
+                        $scope.promotion.expired_at = new Date($scope.promotion.expired_at);
+                        angular.forEach($scope.promotion.coupons, function(value, index){
+                            voucherService.get(value).success(function(res){
+                                res.voucher.expired_at = new Date(res.voucher.expired_at).toISOString().slice(0, 10);
+                                $scope.promotion.coupons[index] = res.voucher;
+                            });
+                        });
+                    })
+                    .error(function(){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                    });
+
+            } else {
+                promotionService.create()
+                    .success(function(res){
+                        $scope.promotion = res.promotion;
+                        $scope.promotion.promotion_type = $scope.promotion_types[0].key;
+                        $scope.promotion.coupon_type = $scope.coupon_types[0].key;
+                    })
+                    .error(function(){
+                        $location.path('/promotions');
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Ha ocurrido un error al crear la promoción. Intentalo nuevamente mas tarde.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                    });
+            }
+        };
+
+        $scope.$watch('promotion.promotion_type', function() {
+            var discount_percentage = angular.element(document.querySelector('[name="discount_percentage"]'));
+            var subscription_plan = angular.element(document.querySelector('[name="subscription_plan"]'));
+            if ($scope.promotion.promotion_type === $scope.promotion_types[0].key) {
+                discount_percentage.parent().css('display', 'none');
+                subscription_plan.parent().css('display', 'block');
+
+                angular.element(document.querySelector('.md-select-label')).removeClass('md-placeholder');
+            } else {
+                discount_percentage.parent().css('display', 'block');
+                subscription_plan.parent().css('display', 'none');
+            }
+        });
+
+        //$scope.$watch('promotion.coupon_type', function() {
+        //console.log($scope.promotion);
+        //});
+
+        $scope.showActions = function($event, voucher) {
+            var selfScope = $scope;
+
+            $mdBottomSheet.show({
+                templateUrl: 'templates/promotions/bottom-sheet-action-voucher-edit.html',
+                controller: function($scope){
+                    $scope.edit = function () {
+                        selfScope.editVoucher($event, voucher);
+                        $mdBottomSheet.hide();
+                    };
+
+                    $scope.delete = function() {
+                        selfScope.deleteVoucher($event, voucher);
+                        $mdBottomSheet.hide();
+                    };
+                },
+                targetEvent: $event
+            });
+        };
+
+        $scope.addVoucher = function($event, promotion_id) {
+            var selfScope = $scope;
+
+            $mdDialog.show({
+                controller: function($scope) {
+
+                    $scope.voucher = {};
+
+                    $scope.validators = [];
+                    $scope.validators['expired_at_min'] = new Date().toISOString().slice(0, 10);
+
+                    $scope.cancel = function() {
+                        $mdDialog.hide();
+                    };
+
+                    $scope.save = function() {
+                        if(!$scope.voucher.coupon_code || !$scope.voucher.limit_of_use || !$scope.voucher.expired_at)
+                            return;
+
+                        $scope.voucher.days_of_validity = $scope.dayDiff(new Date(), new Date($scope.voucher.expired_at));
+                        $scope.voucher.promotion_id = promotion_id;
+
+                        voucherService.add($scope.voucher)
+                            .success(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('El voucher se agrego exitosamente.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                                selfScope.autoSave();
+                                selfScope.init();
+                                $mdDialog.hide();
+                            })
+                            .error(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Ha ocurrido un error. ' + res.error)
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                            });
+                    };
+
+                    $scope.dayDiff = function(fromDate, toDate) {
+                        var t2 = toDate.getTime();
+                        var t1 = fromDate.getTime();
+
+                        return parseInt((t2-t1)/(24*3600*1000)) + 1;
+                    };
+
+                    $scope.checkCouponType = function(){
+                        if(selfScope.promotion.coupon_type === 'self_generated') {
+                            var coupon_code = $scope.generateCode(20);
+                            $scope.voucher.coupon_code = coupon_code;
+                        } else {
+                            $scope.voucher.coupon_code = '';
+                        }
+                    };
+
+                    $scope.generateCode = function (len, charSet) {
+                        charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                        var randomString = '';
+                        for (var i = 0; i < len; i++) {
+                            var randomPoz = Math.floor(Math.random() * charSet.length);
+                            randomString += charSet.substring(randomPoz,randomPoz+1);
+                        }
+                        return randomString;
+                    };
+
+                    $scope.checkCouponType();
+                },
+                templateUrl: 'templates/promotions/dialog-create-voucher.html',
+                targetEvent: $event
+            });
+        };
+
+        $scope.editVoucher = function($event, voucher) {
+            var selfScope = $scope;
+
+            $event.preventDefault();
+            $mdDialog.show({
+                controller: function($scope) {
+
+                    $scope.voucher = voucher || {};
+
+                    $scope.validators = [];
+                    $scope.validators['expired_at_min'] = new Date().toISOString().slice(0, 10);
+
+                    $scope.init = function() {
+                        $scope.voucher.expired_at = new Date($scope.voucher.expired_at);
+                    };
+
+                    $scope.cancel = function() {
+                        $mdDialog.hide();
+                    };
+
+                    $scope.save = function() {
+                        if(!$scope.voucher.coupon_code || !$scope.voucher.limit_of_use || !$scope.voucher.expired_at)
+                            return;
+
+                        $scope.voucher.days_of_validity = $scope.dayDiff(new Date(), new Date($scope.voucher.expired_at));
+
+                        voucherService.edit($scope.voucher)
+                            .success(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('El voucher se modifico exitosamente.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                                selfScope.autoSave();
+                                selfScope.init();
+                                $mdDialog.hide();
+                            })
+                            .error(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Ha ocurrido un error. ' + res.error)
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                            });
+                    };
+
+                    $scope.dayDiff = function(fromDate, toDate) {
+                        var t2 = toDate.getTime();
+                        var t1 = fromDate.getTime();
+
+                        return parseInt((t2-t1)/(24*3600*1000)) + 1;
+                    };
+
+                    $scope.init();
+                },
+                templateUrl: 'templates/promotions/dialog-edit-voucher.html',
+                targetEvent: $event
+            });
+        };
+
+        $scope.deleteVoucher = function($event, voucher) {
+            var confirm = $mdDialog.confirm()
+                .title('Realmente deseas eliminar el voucher: ' + voucher.coupon_code + '?')
+                .content('Esta acción no puede deshacerse.')
+                .ariaLabel('Eliminar voucher')
+                .ok('Eliminar')
+                .cancel('Cancelar')
+                .targetEvent($event);
+            $mdDialog.show(confirm).then(function() {
+                voucherService.delete(voucher)
+                    .success(function(res){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Se ha eliminado el voucher exitosamente.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                    })
+                    .error(function(){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                    });
+            }, function() {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('La eliminacion ha sido cancelada.')
+                        .position('top right')
+                        .hideDelay(3000)
+                );
+            });
+        };
+
+        $scope.voucherActivate = function(voucher) {
+            voucherService.activate(voucher)
+                .success(function(res){
+                    var status = (res.voucher.active ? 'activado' : 'desactivado');
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Se ha ' + status +  ' el voucher exitosamente.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                })
+                .error(function(res){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                });
+        };
+
+        $scope.submit = function(redirect) {
+            promotionService.edit($scope.promotion)
+                .success(function(res){
+                    if(res.promotion){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('La promoción se guardo exitosamente.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                        if(redirect) {
+                            $location.path('/promotions');
+                        }
+                    }
+                })
+                .error(function(){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                });
+        };
+
+        $scope.autoSave = function () {
+            $scope.submit(false);
+        };
+
+        $scope.cancel = function($event) {
+            $event.preventDefault();
+            promotionService.delete($scope.promotion)
+                .success(function(){
+                    $location.path('/promotions');
+                });
+        };
+
+        $scope.init();
 
     };
 
 }).call(this);
-
 

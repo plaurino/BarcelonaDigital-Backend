@@ -15,12 +15,50 @@
 
         factory.api_url = "{@= LET.api_url @}";
 
+        factory.promotion_types = [
+            {
+                key: 'subscription_plan',
+                label: 'Plan de suscripción'
+            },
+            {
+                key: 'discount',
+                label: 'Porcentaje de descuento'
+            }
+        ];
+
+        factory.coupon_types = [
+            {
+                key: 'self_generated',
+                label: 'Auto-generado'
+            },
+            {
+                key: 'custom',
+                label: 'Personalizado'
+            }
+        ];
+
         factory.getAll = function () {
             return $http.get(factory.api_url + '/promotions');
         };
 
         factory.get = function (id) {
             return $http.get(factory.api_url + '/promotions/' + id);
+        };
+
+        factory.create = function () {
+            return $http.post(factory.api_url + '/promotions/', { auto: true });
+        };
+
+        factory.activate = function (promotion) {
+            return $http.post(factory.api_url + '/promotions/' + promotion._id + '/activate', { promotion: promotion })
+        };
+
+        factory.delete = function (promotion) {
+            return $http.delete(factory.api_url + '/promotions/' + promotion._id);
+        };
+
+        factory.edit = function (promotion) {
+            return $http.post(factory.api_url + '/promotions/' + promotion._id, { promotion: promotion });
         };
 
         return factory;

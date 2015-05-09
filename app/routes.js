@@ -34,14 +34,14 @@ routeMap = [{
         controller: 'promotions.listController'
     },
     {
-        url: '/promotions/:id',
-        templateUrl: "templates/promotions/edit.html",
-        controller: 'promotions.editController'
-    },
-    {
         url: '/promotions/create',
         templateUrl: "templates/promotions/create.html",
         controller: 'promotions.createController'
+    },
+    {
+        url: '/promotions/:id',
+        templateUrl: "templates/promotions/edit.html",
+        controller: 'promotions.editController'
     }
 ];
 module.exports = routeMap;

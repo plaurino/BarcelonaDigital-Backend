@@ -1,7 +1,139 @@
 <div layout="row" flex layout-fill layout-align="center center">
-    <md-card flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
+    <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
         <md-card-content>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Nueva promoción</span>
+                </h2>
+            </md-toolbar>
+            <md-content>
+                <div class="promotion-edit-container">
+                    <form name="editForm" ng-submit="submit(true)">
 
+                        <div layout>
+                            <md-input-container flex-sm="100"  flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="70">
+                                <label>Nombre</label>
+                                <input type="text" name="name" ng-model="promotion.name" required>
+                                <div ng-messages="editForm.name.$error">
+                                    <div ng-message="required" ng-show="editForm.name.$error.required">Este campo es requerido.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout>
+                            <md-input-container flex>
+                                <label>Descripción</label>
+                                <textarea name="description" ng-model="promotion.description" required>
+                                </textarea>
+                                <div ng-messages="editForm.description.$error">
+                                    <div ng-message="required" ng-show="editForm.description.$error.required">Este campo es requerido</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout="row" layout-sm="column">
+                            <md-input-container layout="column" flex ng-class="{'md-input-invalid' : editForm.coupon_type.$invalid, 'md-input-has-value': editForm.coupon_type.$valid}">
+                                <label ng-class="{'md-no-float' : editForm.coupon_type.$invalid}">Tipo de vouchers: <span class="md-warn">{{ promotion.coupon_type }}</span></label>
+                                <md-radio-group ng-model="promotion.coupon_type" name="coupon_type" required class="md-primary">
+                                    <md-radio-button ng-repeat="item in coupon_types" ng-value="item.key">{{item.label}}</md-radio-button>
+                                </md-radio-group>
+                                <div ng-messages="editForm.coupon_type.$error">
+                                    <div ng-message="required" ng-show="editForm.coupon_type.$error.required">Este campo es requerido</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container layout="column" flex ng-class="{'md-input-invalid' : editForm.promotion_type.$invalid, 'md-input-has-value': editForm.promotion_type.$valid}">
+                                <label ng-class="{'md-no-float' : editForm.promotion_type.$invalid}">Tipo de promoción: <span class="md-warn">{{ promotion.promotion_type }}</span></label>
+                                <md-radio-group ng-model="promotion.promotion_type" name="promotion_type" required class="md-primary">
+                                    <md-radio-button ng-repeat="item in promotion_types" ng-value="item.key">{{item.label}}</md-radio-button>
+                                </md-radio-group>
+                                <div ng-messages="editForm.promotion_type.$error">
+                                    <div ng-message="required" ng-show="editForm.promotion_type.$error.required">Este campo es requerido</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout="row">
+                            <md-input-container layout="column" flex>
+                                <label>Porcentaje de descuento:</label>
+                                <input type="number" name="discount_percentage" ng-model="promotion.discount_percentage" required min="0" max="100">
+                                <div ng-messages="editForm.discount_percentage.$error">
+                                    <div ng-message="required" ng-show="editForm.discount_percentage.$error.required">Este campo es requerido</div>
+                                    <div ng-message="min" ng-show="editForm.discount_percentage.$error.min">El valor minimo permitido es 0.</div>
+                                    <div ng-message="max" ng-show="editForm.discount_percentage.$error.max">El valor maximo permitido es 100.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container layout="column" flex>
+                                <md-select ng-model="promotion.subscription_plan" name="subscription_plan" placeholder="Seleccionar un plan de suscripción" required>
+                                    <md-option ng-repeat="item in subscription_plan_types" ng-value="item.id">{{item.title}}</md-option>
+                                </md-select>
+                                <div ng-messages="editForm.subscription_plan.$error">
+                                    <div ng-message="required" ng-show="editForm.subscription_plan.$error.required">Este campo es requerido</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout>
+                            <md-input-container flex>
+                                <label>Fecha de vencimiento</label>
+                                <input type="date" name="expired_at" ng-model="promotion.expired_at" required min="{{validators.expired_at_min}}">
+                                <div ng-messages="editForm.expired_at.$error">
+                                    <div ng-message="required" ng-show="editForm.expired_at.$error.required">Este campo es requerido.</div>
+                                    <div ng-message="min" ng-show="editForm.expired_at.$error.min">La fecha ingresada no puede ser menor a la actual.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout="column" class="voucher-list">
+                            <md-toolbar class="md-theme-light md-accent">
+                                <h2 class="md-toolbar-tools">
+                                    <span>Vouchers</span>
+                                </h2>
+                                <span flex></span>
+                                <md-button class="md-fab md-fab-top-right md-primary" type="button" ng-click="addVoucher($event, promotion._id)">
+                                    <md-icon aria-label="Agregar voucher" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
+                                    <md-tooltip>
+                                        Agregar voucher
+                                    </md-tooltip>
+                                </md-button>
+                            </md-toolbar>
+                            <md-content>
+                                <md-list>
+                                    <md-list-item class="md-3-line" ng-repeat="voucher in promotion.coupons">
+                                        <md-item-content>
+                                            <div class="md-tile-content">
+                                                <h3>{{voucher.coupon_code}}</h3>
+                                                <h4>Usado {{voucher.used_times}}/{{voucher.limit_of_use}} veces.</h4>
+                                                <p>Vence el {{voucher.expired_at}}.</p>
+                                            </div>
+                                            <div class="md-lite-right">
+                                                <md-switch ng-model="voucher.active" aria-label="Activo" ng-change="voucherActivate(voucher)"></md-switch>
+                                            </div>
+                                            <div class="md-lite-right">
+                                                <md-button aria-label="" ng-click="showActions($event, voucher)">
+                                                    <md-icon aria-label="Acciones" class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
+                                                </md-button>
+                                            </div>
+                                        </md-item-content>
+                                        <md-divider ng-if="!$last" inset></md-divider>
+                                    </md-list-item>
+                                </md-list>
+                            </md-content>
+                        </div>
+
+                        <div layout class="actions">
+                            <div flex></div>
+                            <md-input-container>
+                                <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-button>Guardar</md-button>
+                            </md-input-container>
+                        </div>
+                    </form>
+                </div>
+            </md-content>
         </md-card-content>
     </md-card>
 </div>
