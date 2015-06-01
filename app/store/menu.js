@@ -32,6 +32,13 @@
                 },
                 {
                     type: 'link',
+                    name: 'Usuarios',
+                    key: 'users',
+                    url: '/users',
+                    public: false
+                },
+                {
+                    type: 'link',
                     name: 'Promociones',
                     key: 'promotions',
                     url: '/promotions',

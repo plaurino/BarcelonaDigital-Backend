@@ -2,6 +2,10 @@
     <md-card flex-sm="98" flex-gt-sm="70" flex-gt-md="50" flex-gt-lg="40">
         <md-card-content>
             <form name="loginForm" ng-submit="login(credentials)">
+                <div layout="row" flex layout-fill layout-align="center center" flex>
+                    <img src="assets/img/avatar.png" alt="avatar" class="avatar">
+                    <md-progress-circular class="md-warn login-loading" md-mode="indeterminate"></md-progress-circular>
+                </div>
                 <md-input-container>
                     <label>Email</label>
                     <input type="email" name="email" ng-model="credentials.username" required>
@@ -17,7 +21,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container>
-                    <md-button>Login</md-button>
+                    <md-button class="login-button">Login</md-button>
                 </md-input-container>
             </form>
         </md-card-content>

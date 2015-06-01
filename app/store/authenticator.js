@@ -13,7 +13,7 @@
     module.exports = function($http, localStorageService, $location) {
         var factory = {};
 
-        factory.api_url = "{@= LET.api_url @}";
+        factory.api_url = "{@= LET.api_url @}" + "/admin";
 
         factory.authenticate = function (credentials) {
             $http.defaults.headers.common.Authorization = 'Basic ' + window.btoa(credentials.username + ':' + credentials.password);

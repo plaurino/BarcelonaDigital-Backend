@@ -13,7 +13,8 @@
     module.exports = function($http) {
         var factory = {};
 
-        factory.api_url = "{@= LET.api_url @}";
+        factory.api_url = "{@= LET.api_url @}" + "/admin";
+        
 
         factory.promotion_types = [
             {

@@ -42,6 +42,11 @@ routeMap = [{
         url: '/promotions/:id',
         templateUrl: "templates/promotions/edit.html",
         controller: 'promotions.editController'
+    },
+    {
+        url: '/users',
+        templateUrl: "templates/users/list.html",
+        controller: 'users.listController'
     }
 ];
 module.exports = routeMap;

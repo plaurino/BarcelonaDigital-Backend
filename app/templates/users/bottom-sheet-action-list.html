@@ -1,0 +1,21 @@
+<md-bottom-sheet class="md-list md-has-header users-actions">
+    <md-subheader>Usted desea:</md-subheader>
+    <md-list role="list">
+        <md-list-item role="listitem">
+            <md-button class="md-list-item-content md-warn md-raised" ng-click="delete()">
+                Eliminar
+            </md-button>
+        </md-list-item>
+        <md-list-item role="listitem">
+            <md-button class="md-list-item-content md-primary md-raised" ng-click="edit()">
+                Editar
+            </md-button>
+        </md-list-item>
+        <md-list-item role="listitem">
+            <div>
+                <md-switch ng-model="isAdmin" aria-label="Administrador" ng-change="setAsAdmin()"></md-switch>
+                <md-tooltip>Establecer como Admin.</md-tooltip>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-bottom-sheet>

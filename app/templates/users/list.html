@@ -1,0 +1,41 @@
+<div layout="row" flex layout-fill layout-align="center center">
+    <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
+        <md-card-content>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Lista de usuarios</span>
+                </h2>
+                <!--<span flex></span>
+                <md-button class="md-fab md-fab-top-right md-primary" ng-click="create()">
+                    <md-icon aria-label="Agregar promoción" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
+                    <md-tooltip>
+                        Agregar usuario
+                    </md-tooltip>
+                </md-button>-->
+            </md-toolbar>
+            <md-content>
+                <md-list>
+                    <md-list-item class="md-2-line" ng-click="showActions($event, user)" ng-repeat="user in users">
+                                <img src="assets/img/avatar.png" alt="avatar" hide-sm class="md-avatar">
+                                <div class="md-list-item-text">
+                                    <h3>{{user.username}} <span class="highlight highlight-primary" ng-show="user.admin">Admin</span></h3>
+                                    <p>{{user.collections.length}} revistas en su colección.</p>
+                                </div>
+                                <md-switch class="md-secondary" ng-model="user.active" aria-label="Activo" ng-change="activate(user)"></md-switch>
+                        </md-item-content>
+                        <md-divider ng-if="$index !== (users.length-1)" inset></md-divider>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-card-content>
+    </md-card>
+
+    <div class="controls">
+        <md-button class="md-fab md-fab-bottom-right md-primary" ng-click="create()">
+            <md-icon aria-label="Agregar promoción" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
+            <md-tooltip>
+                Agregar usuario
+            </md-tooltip>
+        </md-button>
+    </div>
+</div>

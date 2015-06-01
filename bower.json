@@ -7,7 +7,7 @@
     "angular-mocks": "latest",
     "angular": "latest",
     "angular-route": "latest",
-    "angular-material": "latest",
+    "angular-material": "0.9.6",
     "material-design-icons": "latest",
     "jquery": "2.1.3"
   },

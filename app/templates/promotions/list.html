@@ -5,40 +5,29 @@
                 <h2 class="md-toolbar-tools">
                     <span>Lista de promociones</span>
                 </h2>
-                <span flex></span>
+                <!--<span flex></span>
                 <md-button class="md-fab md-fab-top-right md-primary" ng-click="create()">
                     <md-icon aria-label="Agregar promoción" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
                     <md-tooltip>
                         Agregar promoción
                     </md-tooltip>
-                </md-button>
+                </md-button>-->
             </md-toolbar>
             <md-content>
                 <md-list>
-                    <md-list-item ng-repeat="promotion in promotions">
-                        <md-item-content>
-                            <div class="md-tile-content">
-                                <h3>{{promotion.name}}</h3>
-                                <h4>{{promotion.description}}</h4>
-                                <p>{{promotion.coupons.length}} cupones de descuento.</p>
-                            </div>
-                            <div class="md-lite-right" ng-show="promotion.draft">
-                                <md-button class="md-accent" aria-label="Photos">
-                                    <md-icon class="icon-action-black icon-action-black-ic_info_black_24dp">></md-icon>
-                                    <md-tooltip>
-                                        Abandono sin guardar (modo borrador).
-                                    </md-tooltip>
-                                </md-button>
-                            </div>
-                            <div class="md-lite-right">
-                                <md-switch ng-model="promotion.active" aria-label="Activo" ng-change="activate(promotion)"></md-switch>
-                            </div>
-                            <div class="md-lite-right">
-                                <md-button aria-label="" type="button" ng-click="showActions($event, promotion)">
-                                    <md-icon aria-label="Acciones" class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
-                                </md-button>
-                            </div>
-                        </md-item-content>
+                    <md-list-item class="md-3-line" ng-click="showActions($event, promotion)"  ng-repeat="promotion in promotions">
+                        <div class="md-list-item-text">
+                            <h3>{{promotion.name}}</h3>
+                            <h4>{{promotion.description}}</h4>
+                            <p>{{promotion.coupons.length}} cupones de descuento.</p>
+                        </div>
+                        <md-button class="md-accent" aria-label="Photos" ng-show="promotion.draft">
+                            <md-icon class="icon-action-black icon-action-black-ic_info_black_24dp"></md-icon>
+                            <md-tooltip>
+                                Abandono sin guardar (modo borrador)
+                            </md-tooltip>
+                        </md-button>
+                        <md-switch class="md-secondary" ng-model="promotion.active" aria-label="Activo" ng-change="activate(promotion)"></md-switch>
                         <md-divider ng-if="$index !== (promotions.length-1)" inset></md-divider>
                     </md-list-item>
                 </md-list>
@@ -46,12 +35,12 @@
         </md-card-content>
     </md-card>
 
-    <!--<div class="controls">
-        <md-button class="md-fab md-fab-bottom-right md-warn">
+    <div class="controls">
+        <md-button class="md-fab md-fab-bottom-right md-primary" ng-click="create()">
             <md-icon aria-label="Agregar promoción" class="icon-content-white icon-content-white-ic_add_white_24dp"></md-icon>
             <md-tooltip>
                 Agregar promoción
             </md-tooltip>
         </md-button>
-    </div>-->
+    </div>
 </div>
