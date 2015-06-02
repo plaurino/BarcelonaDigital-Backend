@@ -107,3 +107,7 @@ popup-menu .menu-list .md-button {
 .highlight-raised {
   color: #E42939;
 }
+
+.controls .md-button.md-fab.md-fab-bottom-right {
+  position: fixed;
+}

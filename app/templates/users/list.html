@@ -25,6 +25,9 @@
                         </md-item-content>
                         <md-divider ng-if="$index !== (users.length-1)" inset></md-divider>
                     </md-list-item>
+                    <md-list-item ng-show="users.length === 0" flex layout-align="center center">
+                        <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                    </md-list-item>
                 </md-list>
             </md-content>
         </md-card-content>

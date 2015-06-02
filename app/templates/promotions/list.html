@@ -30,6 +30,9 @@
                         <md-switch class="md-secondary" ng-model="promotion.active" aria-label="Activo" ng-change="activate(promotion)"></md-switch>
                         <md-divider ng-if="$index !== (promotions.length-1)" inset></md-divider>
                     </md-list-item>
+                    <md-list-item ng-show="promotions.length === 0" flex layout-align="center center">
+                        <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                    </md-list-item>
                 </md-list>
             </md-content>
         </md-card-content>
