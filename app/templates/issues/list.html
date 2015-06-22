@@ -7,6 +7,10 @@
                 </h2>
             </md-toolbar>
             <md-content>
+                <div layout layout-padding ng-show="!error && loading">
+                    <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                </div>
+                <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
                 <md-list>
                     <md-list-item class="md-2-line" ng-click="showActions($event, issue)" ng-repeat="issue in issues">
                                 <img ng-src="{{(issue.cover || 'assets/img/blank_issue.png')}}" alt="cover" hide-sm class="md-avatar">
@@ -21,9 +25,6 @@
                                 <md-switch class="md-secondary" ng-model="issue.active" aria-label="Activo" ng-change="activate(issue)" ng-show="!issue.draft"></md-switch>
                         </md-item-content>
                         <md-divider ng-if="$index !== (issues.length-1)" inset></md-divider>
-                    </md-list-item>
-                    <md-list-item ng-show="issues.length === 0" flex layout-align="center center">
-                        <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
                     </md-list-item>
                 </md-list>
             </md-content>

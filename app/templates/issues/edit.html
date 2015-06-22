@@ -7,7 +7,11 @@
                 </h2>
             </md-toolbar>
             <md-content>
-                <div class="issue-edit-container">
+                <div layout layout-padding ng-show="!error && loading">
+                    <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                </div>
+                <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
+                <div class="issue-edit-container" ng-show="!error">
                     <form name="editForm" ng-submit="submit(true)" enctype='multipart/form-data'>
 
                         <div layout>
@@ -48,13 +52,13 @@
                                           md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"
                                           md-row-height-gt-md="1:1" md-row-height="4:3"
                                           md-gutter="8px" md-gutter-gt-sm="4px" >
-                                <md-grid-tile ng-repeat="tile in issue.pages"
+                                <md-grid-tile ng-repeat="page in issue.pages"
                                               md-rowspan="3"
                                               md-colspan="2"
                                               md-rowspan-sm="2"
                                               md-colspan-sm="1">
-                                    <img ng-src="{{pageIcon(issue.main, tile.file)}}" width="120" height="160"/>
-                                    <md-grid-tile-footer><h3>{{tile.file}}</h3></md-grid-tile-footer>
+                                    <img ng-src="{{getThumbUrl(getImageUrl(issue.main, page.file))}}" width="120" height="160"/>
+                                    <md-grid-tile-footer><h3>{{page.file}}</h3></md-grid-tile-footer>
                                 </md-grid-tile>
                             </md-grid-list>
                         </div>

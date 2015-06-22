@@ -11,8 +11,11 @@
 
 (function() {
     module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, $location, issueService) {
-        
+
         $scope.issue = {};
+
+        $scope.loading = true;
+        $scope.error = false;
 
         $scope.init = function() {
             if($routeParams.id) {
@@ -22,6 +25,7 @@
                         if($scope.issue.number) {
                             $scope.issue.number = parseInt($scope.issue.number, 10);
                         }
+                        $scope.loading = false;
                     })
                     .error(function(){
                         $mdToast.show(
@@ -30,24 +34,27 @@
                                 .position('top right')
                                 .hideDelay(3000)
                         );
+                        $scope.loading = false;
+                        $scope.error = true;
                     });
 
             } else {
                 issueService.create()
                     .success(function(res){
                         $scope.issue = res.issue;
+                        $scope.loading = false;
                     })
                     .error(function(){
-                        $location.path('/issues');
                         $mdToast.show(
                             $mdToast.simple()
                                 .content('Ha ocurrido un error al crear la revista. Intentalo nuevamente mas tarde.')
                                 .position('top right')
                                 .hideDelay(3000)
                         );
+                        $scope.loading = false;
+                        $scope.error = true;
                     });
             }
-            console.log($scope.issue);
         };
 
         $scope.$watch('files', function () {
@@ -62,6 +69,7 @@
                     issueService.upload($scope.issue, file)
                         .progress(function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope.loading = true;
                             //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                         }).success(function (data, status, headers, config) {
                             //console.log('file ' + config.file.name + ' uploaded. Response: ' + data);
@@ -76,6 +84,7 @@
                                 position: 'top right'
                             });
                             $scope.reload();
+                            $scope.loading = false;
                         });
                 }
             }
@@ -93,6 +102,34 @@
                 $location.path('/issues');
             }
 
+        };
+
+        $scope.submit = function(redirect) {
+            $scope.loading = true;
+            issueService.edit($scope.issue)
+                .success(function(res){
+                    if(res.issue){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('La promoción se guardo exitosamente.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                        $scope.loading = false;
+                        if(redirect)  {
+                            $location.path('/issues');
+                        }
+                    }
+                })
+                .error(function(){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                    $scope.loading = false;
+                });
         };
 
         $scope.reload = function() {
@@ -122,8 +159,12 @@
             }
         };
 
-        $scope.pageIcon = function(path, file) {
+        $scope.getImageUrl = function(path, file) {
           return path + file;
+        };
+
+        $scope.getThumbUrl = function(image) {
+            return image.replace('fullsize', 'thumbs');
         };
 
         $scope.init();

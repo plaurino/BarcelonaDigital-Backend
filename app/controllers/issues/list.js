@@ -13,6 +13,9 @@
     module.exports = function($scope, $mdBottomSheet, $location, $mdToast, $mdDialog, issueService) {
         $scope.issues = [];
 
+        $scope.loading = true;
+        $scope.error = false;
+
         $scope.init = function(){
             $scope.getAll();
         };
@@ -22,6 +25,8 @@
                 .success(function(res){
                     //console.log(res.issues);
                     $scope.issues = res.issues;
+                    $scope.loading = false;
+                    $scope.error = false;
                 })
                 .error(function(){
                     $mdToast.show(
@@ -30,6 +35,8 @@
                             .position('top right')
                             .hideDelay(3000)
                     );
+                    $scope.error = true;
+                    $scope.loading = false;
                 });
         };
 
