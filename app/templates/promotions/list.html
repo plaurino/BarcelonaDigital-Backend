@@ -21,10 +21,10 @@
                             <h4>{{promotion.description}}</h4>
                             <p>{{promotion.coupons.length}} cupones de descuento.</p>
                         </div>
-                        <md-button class="md-accent" aria-label="Photos" ng-show="promotion.draft">
+                        <md-button class="md-accent" aria-label="Borrador" ng-show="promotion.draft">
                             <md-icon class="icon-action-black icon-action-black-ic_info_black_24dp"></md-icon>
                             <md-tooltip>
-                                Abandono sin guardar (modo borrador)
+                                Borrador
                             </md-tooltip>
                         </md-button>
                         <md-switch class="md-secondary" ng-model="promotion.active" aria-label="Activo" ng-change="activate(promotion)"></md-switch>

@@ -32,6 +32,13 @@
                 },
                 {
                     type: 'link',
+                    name: 'Revistas',
+                    key: 'issues',
+                    url: '/issues',
+                    public: false
+                },
+                {
+                    type: 'link',
                     name: 'Usuarios',
                     key: 'users',
                     url: '/users',

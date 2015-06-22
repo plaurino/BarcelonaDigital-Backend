@@ -7,3 +7,5 @@ app.controller('users.listController',require('./users/list'));
 app.controller('promotions.listController',require('./promotions/list'));
 app.controller('promotions.createController',require('./promotions/create'));
 app.controller('promotions.editController',require('./promotions/edit'));
+app.controller('issues.listController',require('./issues/list'));
+app.controller('issues.editController',require('./issues/edit'));

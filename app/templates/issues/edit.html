@@ -1,0 +1,76 @@
+<div layout="row" flex layout-fill layout-align="center center">
+    <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
+        <md-card-content>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Nueva revista</span>
+                </h2>
+            </md-toolbar>
+            <md-content>
+                <div class="issue-edit-container">
+                    <form name="editForm" ng-submit="submit(true)" enctype='multipart/form-data'>
+
+                        <div layout>
+                            <md-input-container layout="column" flex-sm="100"  flex-gt-sm="70" flex-gt-md="70" flex-gt-lg="70">
+                                <label>Título</label>
+                                <input type="text" name="title" ng-model="issue.title" required>
+                                <div ng-messages="editForm.title.$error">
+                                    <div ng-message="required" ng-show="editForm.title.$error.required">Este campo es requerido.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container layout="column" flex-sm="100"  flex-gt-sm="30" flex-gt-md="30" flex-gt-lg="30">
+                                <label>Número:</label>
+                                <input type="number" name="number" ng-model="issue.number" required min="0">
+                                <div ng-messages="editForm.number.$error">
+                                    <div ng-message="required" ng-show="editForm.number.$error.required">Este campo es requerido</div>
+                                    <div ng-message="min" ng-show="editForm.number.$error.min">El valor minimo permitido es 0.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout="column" layout-fill>
+                            <md-content layout flex layout-fill layout-align="center center">
+                                <div ngf-drop ngf-select ng-model="files" class="drop-box"
+                                     ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+                                     ngf-accept="'image/*'"
+                                     flex-sm="100"  flex-gt-sm="80" flex-gt-md="70" flex-gt-lg="60">Soltar imágenes aquí</div>
+                                <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                            </md-content>
+                        </div>
+
+                        <div  layout="row" flex layout-fill layout-align="center center">
+                            La revista tiene {{issue.pages.length}} paginas. <md-button type="button" ng-show="issue.pages.length" ng-click="showPages()" class="md-primary md-hue-1">Ver/Ocultar</md-button>
+                        </div>
+
+                        <div class="pages hide" layout="row" flex layout-fill layout-align="center center">
+                            <md-grid-list flex="80"
+                                          md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"
+                                          md-row-height-gt-md="1:1" md-row-height="4:3"
+                                          md-gutter="8px" md-gutter-gt-sm="4px" >
+                                <md-grid-tile ng-repeat="tile in issue.pages"
+                                              md-rowspan="3"
+                                              md-colspan="2"
+                                              md-rowspan-sm="2"
+                                              md-colspan-sm="1">
+                                    <img ng-src="{{pageIcon(issue.main, tile.file)}}" width="120" height="160"/>
+                                    <md-grid-tile-footer><h3>{{tile.file}}</h3></md-grid-tile-footer>
+                                </md-grid-tile>
+                            </md-grid-list>
+                        </div>
+
+                        <div layout class="actions">
+                            <div flex></div>
+                            <md-input-container>
+                                <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-button>Guardar</md-button>
+                            </md-input-container>
+                        </div>
+                    </form>
+                </div>
+            </md-content>
+        </md-card-content>
+    </md-card>
+</div>

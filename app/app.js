@@ -17,7 +17,7 @@
 
 var boot;
 boot = require("../core/boot");
-boot(["ngMaterial"]);
+boot(["ngMaterial", "ngFileUpload"]);
 
 require("./filters");
 require("./services");

@@ -34,7 +34,7 @@ CONSTANTS = {
     "api_url": "http://barcelonadigital-dev.com:3000"
   },
   "production": {
-    "api_url": "http://kioskobarcelona-otalegre.rhcloud.com"
+    "api_url": "http://104.236.50.158:3000"
   }
 };
 var env = CONSTANTS.development || {};
