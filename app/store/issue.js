@@ -46,7 +46,7 @@
         factory.upload = function(issue, file) {
             return Upload.upload({
                 url: factory.api_url + '/issues/' + issue._id + '/upload',
-                fields: {},
+                fields: {'title': issue.title, 'number': issue.number},
                 file: file
             })
         };
