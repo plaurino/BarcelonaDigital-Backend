@@ -5,6 +5,10 @@
                 <h2 class="md-toolbar-tools">
                     <span>Nueva revista</span>
                 </h2>
+                <span flex></span>
+                <div class="cover">
+                    <img ng-src="{{issue.cover || 'assets/img/blank_issue.png'}}" />
+                </div>
             </md-toolbar>
             <md-content>
                 <div layout layout-padding ng-show="!error && loading">
@@ -12,7 +16,8 @@
                 </div>
                 <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
                 <div class="issue-edit-container" ng-show="!error">
-                    <form name="editForm" ng-submit="submit(true)" enctype='multipart/form-data'>
+
+                    <form name="editForm" ng-submit="publish()" enctype='multipart/form-data'>
 
                         <div layout>
                             <md-input-container layout="column" flex-sm="100"  flex-gt-sm="70" flex-gt-md="70" flex-gt-lg="70">
@@ -47,20 +52,15 @@
                             La revista tiene {{issue.pages.length}} paginas. <md-button type="button" ng-show="issue.pages.length" ng-click="showPages()" class="md-primary md-hue-1">Ver/Ocultar</md-button>
                         </div>
 
-                        <div class="pages hide" layout="row" flex layout-fill layout-align="center center">
-                            <md-grid-list flex="80"
-                                          md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6"
-                                          md-row-height-gt-md="1:1" md-row-height="4:3"
-                                          md-gutter="8px" md-gutter-gt-sm="4px" >
-                                <md-grid-tile ng-repeat="page in issue.pages"
-                                              md-rowspan="3"
-                                              md-colspan="2"
-                                              md-rowspan-sm="2"
-                                              md-colspan-sm="1">
-                                    <img ng-src="{{getThumbUrl(getImageUrl(issue.main, page.file))}}" width="120" height="160"/>
-                                    <md-grid-tile-footer><h3>{{page.file}}</h3></md-grid-tile-footer>
-                                </md-grid-tile>
-                            </md-grid-list>
+                        <div class="pages hide" layout="column" flex layout-fill layout-align="center center">
+                                <div class="page-content" ng-class="getImageUrl(issue.main, page.file) == issue.cover ? 'page-cover' : ''" ng-repeat="page in issue.pages" flex layout="row" layout-align="center center">
+                                    <img ng-src="{{getThumbUrl(getImageUrl(issue.main, page.file))}}" flex="60"/>
+                                    <div class="content page-info" flex="40" layout="column" layout-fill layout-align="center center">
+                                        <h3>{{page.file}}</h3>
+                                        <md-button class="md-primary md-raised" type="button" ng-click="editCover(issue._id, page._id)">Portada</md-button>
+                                        <md-button class="md-warn md-raised" type="button" ng-click="removePage($event, page)">Borrar</md-button>
+                                    </div>
+                                </div>
                         </div>
 
                         <div layout class="actions">
@@ -69,7 +69,10 @@
                                 <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
                             </md-input-container>
                             <md-input-container>
-                                <md-button>Guardar</md-button>
+                                <md-button type="button" ng-click="draft($event)">Borrador</md-button>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-button>Publicar</md-button>
                             </md-input-container>
                         </div>
                     </form>

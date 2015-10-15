@@ -129,3 +129,50 @@ popup-menu .menu-list .md-button {
 .hide {
   display: none;
 }
+
+.visibility-icon {
+  margin-right: 10px !important;
+}
+
+.md-inline-list-icon-label {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: -10px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+button md-switch {
+  margin: 0;
+}
+
+.page-content {
+  margin-bottom: 10px;
+  background-color: rgba(0,0,0,0.2);
+  padding: 2px;
+}
+
+.page-content.page-cover {
+  background-color: rgba(0,153,51,0.2);
+}
+
+.page-info {
+  padding: 30px;
+}
+
+.page-info h3 {
+
+}
+
+.cover {
+}
+
+.cover img {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  top: 7px;
+  right: 8px;
+  border-radius: 50%;
+}

@@ -43,6 +43,10 @@
             return $http.post(factory.api_url + '/issues/' + issue._id, { issue: issue });
         };
 
+        factory.editCover = function (issueId, pageId) {
+            return $http.post(factory.api_url + '/issues/' + issueId + '/cover/' + pageId, { id: issueId, pageid: pageId });
+        };
+
         factory.upload = function(issue, file) {
             return Upload.upload({
                 url: factory.api_url + '/issues/' + issue._id + '/upload',
@@ -51,6 +55,9 @@
             })
         };
 
+        factory.removePage = function (pageId) {
+            return $http.delete(factory.api_url + '/issues/page/' + pageId);
+        };
 
         return factory;
     };

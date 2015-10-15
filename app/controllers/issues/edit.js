@@ -26,6 +26,7 @@
                             $scope.issue.number = parseInt($scope.issue.number, 10);
                         }
                         $scope.loading = false;
+                        //console.log($scope.issue);
                     })
                     .error(function(){
                         $mdToast.show(
@@ -104,14 +105,14 @@
 
         };
 
-        $scope.submit = function(redirect) {
+        $scope.save = function(redirect) {
             $scope.loading = true;
             issueService.edit($scope.issue)
                 .success(function(res){
                     if(res.issue){
                         $mdToast.show(
                             $mdToast.simple()
-                                .content('La promoción se guardo exitosamente.')
+                                .content('La revista se guardo exitosamente.')
                                 .position('top right')
                                 .hideDelay(3000)
                         );
@@ -130,6 +131,16 @@
                     );
                     $scope.loading = false;
                 });
+        };
+
+        $scope.publish = function() {
+            $scope.issue.draft = false;
+            $scope.save(true);
+        };
+
+        $scope.draft = function() {
+            $scope.issue.draft = true;
+            $scope.save(true);
         };
 
         $scope.reload = function() {
@@ -165,6 +176,64 @@
 
         $scope.getThumbUrl = function(image) {
             return image.replace('fullsize', 'thumbs');
+        };
+
+        $scope.removePage = function($event, page) {
+            var confirm = $mdDialog.confirm()
+                .title('Realmente deseas eliminar la pagina: ' + page.file + '?')
+                .content('Esta acción no puede deshacerse.')
+                .ariaLabel('Eliminar pagina')
+                .ok('Eliminar')
+                .cancel('Cancelar')
+                .targetEvent($event);
+            $mdDialog.show(confirm).then(function() {
+                issueService.removePage(page._id)
+                    .success(function(res){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Se ha eliminado la pagina exitosamente.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                        $scope.init();
+                    })
+                    .error(function(){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                    });
+            }, function() {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('La eliminacion ha sido cancelada.')
+                        .position('top right')
+                        .hideDelay(3000)
+                );
+            });
+        };
+
+        $scope.editCover = function(issueId, pageId) {
+            issueService.editCover(issueId, pageId)
+                .success(function(res){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Se ha establecido la portada exitosamente.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                    $scope.init();
+                })
+                .error(function(){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                            .position('top right')
+                            .hideDelay(3000)
+                    );
+                });
         };
 
         $scope.init();

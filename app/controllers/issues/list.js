@@ -46,6 +46,7 @@
             $mdBottomSheet.show({
                 templateUrl: 'templates/issues/bottom-sheet-action-list.html',
                 controller: function($scope){
+                    $scope.issue = issue;
 
                     $scope.edit = function () {
                         $location.path('/issues/' + issue._id);
@@ -56,6 +57,31 @@
                         selfScope.delete($event, issue);
                         $mdBottomSheet.hide();
                     };
+
+                    $scope.activate = function() {
+                        $scope.activePreviusValue = $scope.issue.active;
+
+                        issueService.activate(issue)
+                            .success(function(res){
+                                var status = (res.issue.active ? 'activado' : 'desactivado');
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Se ha ' + status +  ' la revista exitosamente.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                            })
+                            .error(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                                $scope.issue.active = $scope.activePreviusValue;
+                                issue.active = $scope.activePreviusValue;
+                            });
+                    }
                 },
                 targetEvent: $event
             });
@@ -121,6 +147,10 @@
 
         $scope.create = function (){
             $location.path('/issues/create');
+        };
+
+        $scope.edit = function (issue) {
+            $location.path('/issues/' + issue._id);
         };
 
         $scope.init();

@@ -12,16 +12,17 @@
                 </div>
                 <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
                 <md-list>
-                    <md-list-item class="md-2-line" ng-click="showActions($event, issue)" ng-repeat="issue in issues">
+                    <md-list-item class="md-2-line" ng-click="edit(issue)" ng-repeat="issue in issues">
+                        <md-icon class="icon-action-black icon-action-black-ic_visibility_black_24dp visibility-icon" ng-show="issue.active"></md-icon>
+                        <md-icon class="icon-action-black icon-action-black-ic_visibility_off_black_24dp visibility-icon" ng-show="!issue.active"></md-icon>
                         <img ng-src="{{(issue.cover || 'assets/img/blank_issue.png')}}" alt="cover" hide-sm class="md-avatar">
                         <div class="md-list-item-text">
-                            <h3>{{(issue.title || 'Sin nombre')}}</h3>
+                            <h3>{{(issue.title || 'Sin nombre')}} <span class="highlight highlight-raised" ng-show="issue.draft">Borrador</span></h3>
                             <p>{{(issue.number ? 'Número ' + issue.number : 'Sin número')}}</p>
                         </div>
-                        <md-switch class="md-secondary" ng-model="issue.active" aria-label="Activo" ng-change="activate(issue)" ng-show="!issue.draft"></md-switch>
-                        <md-button class="md-secondary md-icon-button" aria-label="Borrador" ng-show="issue.draft">
-                            <md-icon class="icon-action-black icon-action-black-ic_info_black_24dp"></md-icon>
-                            <md-tooltip>Borrador</md-tooltip>
+                        <md-button class="md-secondary md-icon-button" ng-click="showActions($event, issue)" aria-label="Acciones">
+                            <md-icon class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
+                            <md-tooltip>Acciones</md-tooltip>
                         </md-button>
                         <md-divider ng-if="$index !== (issues.length-1)" inset></md-divider>
                     </md-list-item>
