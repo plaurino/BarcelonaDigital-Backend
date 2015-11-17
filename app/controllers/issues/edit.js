@@ -10,7 +10,7 @@
 /* @ngInject */
 
 (function() {
-    module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, $location, issueService) {
+    module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, $location, issueService, $timeout) {
 
         $scope.issue = {};
 
@@ -62,6 +62,16 @@
             if($scope.files && $scope.files.length > 0)
                 $scope.upload($scope.files);
         });
+
+        //autosave
+        var debounceSaveUpdates = function(newVal, oldVal) {
+            if (newVal != oldVal) {
+                console.log(newVal);
+                timeout = $timeout($scope.save, 1000);  // 1000 = 1 second
+            }
+        };
+        $scope.$watch($scope.issue.title, debounceSaveUpdates);
+        $scope.$watch($scope.issue.number, debounceSaveUpdates);
 
         $scope.upload = function (files) {
             if (files && files.length) {
@@ -133,16 +143,6 @@
                 });
         };
 
-        $scope.publish = function() {
-            $scope.issue.draft = false;
-            $scope.save(true);
-        };
-
-        $scope.draft = function() {
-            $scope.issue.draft = true;
-            $scope.save(true);
-        };
-
         $scope.reload = function() {
             issueService.get($scope.issue._id)
                 .success(function(res){
@@ -170,17 +170,17 @@
             }
         };
 
-        $scope.getImageUrl = function(path, file) {
-          return path + file;
+        $scope.getImageUrl = function(page) {
+          return page.fullsize;
         };
 
-        $scope.getThumbUrl = function(image) {
-            return image.replace('fullsize', 'thumbs');
+        $scope.getThumbUrl = function(page) {
+            return page.thumb;
         };
 
         $scope.removePage = function($event, page) {
             var confirm = $mdDialog.confirm()
-                .title('Realmente deseas eliminar la pagina: ' + page.file + '?')
+                .title('Realmente deseas eliminar la pagina: ' + page.file_name + '?')
                 .content('Esta acción no puede deshacerse.')
                 .ariaLabel('Eliminar pagina')
                 .ok('Eliminar')

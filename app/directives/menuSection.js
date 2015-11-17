@@ -15,9 +15,13 @@
             scope: {
                 section: '='
             },
-            templateUrl: 'templates/directives/menu-link.html',
+            templateUrl: 'templates/directives/menu-section.html',
             controller: function($scope, $rootScope){
-                $scope.isSubsectionSelected = function() {
+                $scope.isSectionSelected = function() {
+                    return $rootScope.site.isSectionSelected($scope.section);
+                };
+
+                $scope.isSubsectioneSelected = function() {
                     return $rootScope.site.isSubsectionSelected($scope.section);
                 };
 
@@ -26,7 +30,7 @@
                         $rootScope.session.invalidate();
                         $scope.focusSection();
                     } else {
-                        $scope.focusSection();
+                        //$scope.focusSection();
                     }
                 };
 

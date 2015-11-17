@@ -38,16 +38,41 @@
             $mdBottomSheet.show({
                 templateUrl: 'templates/users/bottom-sheet-action-list.html',
                 controller: function($scope){
-                    $scope.isAdmin = user.admin;
+                    $scope.user = user;
+
 
                     $scope.edit = function () {
-                        $location.path('/users/' + user._id);
+                        $location.path('/users/' + $scope.user._id);
                         $mdBottomSheet.hide();
                     };
 
-                    $scope.delete = function() {
-                        selfScope.delete($event, user);
+                    $scope.trash = function() {
+                        selfScope.delete($event, $scope.user);
                         $mdBottomSheet.hide();
+                    };
+
+                    $scope.activate = function() {
+                        $scope.activePreviusValue = $scope.user.active;
+
+                        userService.activate($scope.user)
+                            .success(function(res){
+                                var status = (res.user.active ? 'activado' : 'desactivado');
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Se ha ' + status +  ' el usuario exitosamente.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                            })
+                            .error(function(res){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                                $scope.user.active = $scope.activePreviusValue;
+                            });
                     };
 
                     $scope.setAsAdmin = function() {
@@ -107,27 +132,6 @@
             });
         };
 
-        $scope.activate = function (user) {
-            userService.activate(user)
-                .success(function(res){
-                    var status = (res.user.active ? 'activado' : 'desactivado');
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .content('Se ha ' + status +  ' el usuario exitosamente.')
-                            .position('top right')
-                            .hideDelay(3000)
-                    );
-                })
-                .error(function(res){
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
-                            .position('top right')
-                            .hideDelay(3000)
-                    );
-                });
-        };
-
         $scope.delete = function($event, user) {
             var confirm = $mdDialog.confirm()
                 .title('Realmente deseas eliminar el usuario: ' + user.username + '?')
@@ -167,6 +171,10 @@
 
         $scope.create = function (){
             $location.path('/users/create');
+        };
+
+        $scope.edit = function (user) {
+            $location.path('/users/' + user._id);
         };
 
         $scope.init();

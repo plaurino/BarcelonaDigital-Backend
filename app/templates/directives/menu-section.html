@@ -1,0 +1,8 @@
+<md-button class="section" ng-class="{'md-active' : isSectionSelected()}" ng-href="#{{section.url}}" ng-click="checkAction()">
+    {{section.name}}
+</md-button>
+<ul ng-show="isSectionSelected()">
+    <li ng-repeat="subSection in section.subSections">
+        <menu-link section="subSection" ng-if="subSection.type === 'link' && subSection.public !== session.isAuthenticated()"></menu-link>
+    </li>
+</ul>

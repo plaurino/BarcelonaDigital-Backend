@@ -11,9 +11,13 @@ module.exports = function($rootScope, $mdSidenav, $timeout, menuService, authori
     $rootScope.site.path = path;
     $rootScope.site.goHome = goHome;
     $rootScope.site.openPage = openPage;
-    $rootScope.site.isSelected = isSelected;
+    $rootScope.site.isSectionSelected = isSectionSelected;
+    $rootScope.site.isSubsectionSelected = isSubsectionSelected;
     $rootScope.site.selectPage = selectPage;
     $rootScope.site.getCurrentPage = menuService.getCurrentPage;
+    $rootScope.site.getCurrentSubpage = menuService.getCurrentSubpage;
+    $rootScope.site.clearCurrentSubpage = menuService.clearCurrentSubpage;
+    $rootScope.site.clearCurrentPage = menuService.clearCurrentPage;
 
     $rootScope.session.isAuthenticated = authorizerService.isAuthenticated;
     $rootScope.session.invalidate = authenticatorService.invalidate;
@@ -30,8 +34,12 @@ module.exports = function($rootScope, $mdSidenav, $timeout, menuService, authori
         $rootScope.site.closeMenu('left');
     }
 
-    function isSelected(page) {
+    function isSectionSelected(page) {
         return menuService.isPageSelected(page);
+    }
+
+    function isSubsectionSelected(page) {
+        return menuService.isSubpageSelected(page);
     }
 
     function selectPage(page) {

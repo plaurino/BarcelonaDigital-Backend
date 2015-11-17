@@ -1,10 +1,11 @@
 <md-bottom-sheet class="md-list md-has-header" ng-cloak>
     <md-subheader>Usted desea:</md-subheader>
-    <md-list flex layout="row" layout-align="end center">
+    <md-list flex layout="column" layout-align="center end">
         <md-list-item>
             <md-button class="md-list-item-content">
-                <md-switch ng-model="issue.active" aria-label="Activación" ng-change="activate()" ng-disabled="issue.draft">
-                    <div class="md-inline-list-icon-label">Activar</div>
+                <md-switch ng-model="issue.active" aria-label="Activación" ng-change="activate()">
+                    <div class="md-inline-list-icon-label" ng-show="!issue.active">Activar</div>
+                    <div class="md-inline-list-icon-label" ng-show="issue.active">Desactivar</div>
                 </md-switch>
             </md-button>
         </md-list-item>
@@ -14,10 +15,16 @@
                 <div class="md-inline-list-icon-label">Editar</div>
             </md-button>
         </md-list-item>
-        <md-list-item>
+        <!--<md-list-item>
             <md-button class="md-list-item-content" ng-click="delete()">
                 <md-icon class="icon-action-black icon-action-black-ic_delete_black_24dp"></md-icon>
                 <div class="md-inline-list-icon-label">Eliminar</div>
+            </md-button>
+        </md-list-item>-->
+        <md-list-item>
+            <md-button class="md-list-item-content" ng-click="trash()">
+                <md-icon class="icon-action-black icon-action-black-ic_delete_black_24dp"></md-icon>
+                <div class="md-inline-list-icon-label">Mover a la papelera</div>
             </md-button>
         </md-list-item>
     </md-list>

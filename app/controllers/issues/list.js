@@ -58,6 +58,32 @@
                         $mdBottomSheet.hide();
                     };
 
+                    $scope.trash = function() {
+                        $scope.issue.status = 'trashed';
+                        $scope.active = false;
+                        issueService.edit($scope.issue)
+                            .success(function(res){
+                                if(res.issue){
+                                    $mdToast.show(
+                                        $mdToast.simple()
+                                            .content('La revista se envio a la papelera.')
+                                            .position('top right')
+                                            .hideDelay(3000)
+                                    );
+                                    selfScope.init();
+                                }
+                            })
+                            .error(function(){
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .content('Ha ocurrido un error intentalo nuevamente mas tarde.')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                );
+                            });
+                        $mdBottomSheet.hide();
+                    };
+
                     $scope.activate = function() {
                         $scope.activePreviusValue = $scope.issue.active;
 

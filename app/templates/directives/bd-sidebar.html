@@ -2,14 +2,14 @@
     <md-toolbar class="md-theme-indigo">
         <h1 class="md-toolbar-tools">
             <a ng-href="/#/" layout="row" flex class="logo" ng-click="site.openPage()">
-                <img class="logotype" src="/assets/img/logo.png" alt="Barcelona Digital"></img>
+                <img class="logotype" src="/assets/img/logo.png" alt="Barcelona Digital"/>
             </a>
         </h1>
     </md-toolbar>
-    <md-content class="md-padding" flex role="navigation">
+    <md-content flex role="navigation">
         <ul class="menu">
             <li ng-repeat="section in sections" class="list-item">
-                <menu-link section="section" ng-if="section.type === 'link' && section.public !== session.isAuthenticated()"></menu-link>
+                <menu-section section="section" ng-if="section.type === 'section' && section.public !== session.isAuthenticated()"></menu-section>
             </li>
         </ul>
     </md-content>

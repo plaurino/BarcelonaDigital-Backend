@@ -12,6 +12,140 @@
 (function() {
   module.exports = function($scope) {
     $scope.greeting = "Hello world from homeController";
+
+    require(['../../bower_components/Chart.js/Chart'], function(Chart){
+
+      var dataUserStatus = [
+        {
+          value: 300,
+          color:"#F7464A",
+          highlight: "#FF5A5E",
+          label: "Inactivos"
+        },
+        {
+          value: 50,
+          color: "#46BFBD",
+          highlight: "#5AD3D1",
+          label: "Activos"
+        }
+      ];
+
+      var dataSessions = [
+        {
+          value: 300,
+          color:"#F7464A",
+          highlight: "#FF5A5E",
+          label: "Inactivos"
+        },
+        {
+          value: 50,
+          color: "#46BFBD",
+          highlight: "#5AD3D1",
+          label: "Logueados"
+        }
+      ];
+
+      var dataSuscriptions = [
+        {
+          value: 300,
+          color:"#F7464A",
+          highlight: "#FF5A5E",
+          label: "Sin suscripcion"
+        },
+        {
+          value: 50,
+          color: "#46BFBD",
+          highlight: "#5AD3D1",
+          label: "Suscripcion recurrente"
+        },
+        {
+          value: 50,
+          color: "#31708f",
+          highlight: "#d9edf7",
+          label: "Suscripcion 3 meses"
+        },
+        {
+          value: 50,
+          color: "#8a6d3b",
+          highlight: "#fcf8e3",
+          label: "Suscripcion 6 meses"
+        }
+      ];
+
+      var dataIssues = [
+        {
+          value: 300,
+          color:"#F7464A",
+          highlight: "#FF5A5E",
+          label: "Papelera"
+        },
+        {
+          value: 50,
+          color: "#46BFBD",
+          highlight: "#5AD3D1",
+          label: "Borrador"
+        },
+        {
+          value: 50,
+          color: "#31708f",
+          highlight: "#d9edf7",
+          label: "Pendiente"
+        },
+        {
+          value: 50,
+          color: "#8a6d3b",
+          highlight: "#fcf8e3",
+          label: "Publicadas"
+        }
+      ];
+
+      var dataPromotions = [
+        {
+          value: 300,
+          color: "#46BFBD",
+          highlight: "#5AD3D1",
+          label: "Canjedos"
+        },
+        {
+          value: 50,
+          color:"#F7464A",
+          highlight: "#FF5A5E",
+          label: "Sin canjear"
+        }
+      ];
+
+      var canvasUserStatus = document.getElementById("userStatusChart").getContext("2d");
+      var canvasSessions = document.getElementById("sessionsChart").getContext("2d");
+      var canvasSuscriptions = document.getElementById("suscriptionsChart").getContext("2d");
+      var canvasIssues = document.getElementById("issuesChart").getContext("2d");
+      var canvasPromotions = document.getElementById("promotionsChart").getContext("2d");
+
+      var chartUserStatus = new Chart(canvasUserStatus).Doughnut(dataUserStatus, {
+        animateScale: true
+      });
+
+      var chartSessions = new Chart(canvasSessions).Doughnut(dataSessions, {
+        animateScale: true
+      });
+
+      var chartSuscriptions = new Chart(canvasSuscriptions).Doughnut(dataSuscriptions, {
+        animateScale: true
+      });
+
+      var chartIssues = new Chart(canvasIssues).Pie(dataIssues, {
+        animateScale: true
+      });
+
+      var chartPromotions = new Chart(canvasPromotions).Pie(dataPromotions, {
+        animateScale: true
+      });
+
+      // Chart.noConflict restores the Chart global variable to it's previous owner
+      // The function returns what was previously Chart, allowing you to reassign.
+      //var Chartjs = Chart.noConflict();
+    });
+
+
   };
 
 }).call(this);

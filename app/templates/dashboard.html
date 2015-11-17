@@ -1,9 +1,43 @@
 <div layout="row" flex layout-fill layout-align="center center">
     <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
         <md-card-content>
-            <md-content>
-                <p>Aqui luego se van a incluir estadisticas, etc...</p>
-            </md-content>
+            <div layout="column" layout-padding layout-wrap layout-fill ng-cloak>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Estado de los usuarios</div>
+                    <div class="panel-body" flex layout="column" layout-align="center center">
+                        <canvas id="userStatusChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Suscripciones</div>
+                    <div class="panel-body" flex layout="column" layout-align="center center">
+                        <canvas id="suscriptionsChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Revistas</div>
+                    <div class="panel-body" flex layout="column" layout-align="center center">
+                        <canvas id="issuesChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Promociones</div>
+                    <div class="panel-body" flex layout="column" layout-align="center center">
+                        <canvas id="promotionsChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Sesiones actuales</div>
+                    <div class="panel-body" flex layout="column" layout-align="center center">
+                        <canvas id="sessionsChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
         </md-card-content>
     </md-card>
 </div>

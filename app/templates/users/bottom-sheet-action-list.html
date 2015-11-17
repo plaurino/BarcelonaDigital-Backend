@@ -1,21 +1,25 @@
-<md-bottom-sheet class="md-list md-has-header users-actions">
+<md-bottom-sheet class="md-list md-has-header" ng-cloak>
     <md-subheader>Usted desea:</md-subheader>
-    <md-list role="list">
-        <md-list-item role="listitem">
-            <md-button class="md-list-item-content md-warn md-raised" ng-click="delete()">
-                Eliminar
+    <md-list flex layout="column" layout-align="center end">
+        <md-list-item>
+            <md-button class="md-list-item-content">
+                <md-switch ng-model="user.active" aria-label="Activo" ng-change="activate()">
+                    <div class="md-inline-list-icon-label" ng-show="!user.active">Activar</div>
+                    <div class="md-inline-list-icon-label" ng-show="user.active">Desactivar</div>
+                </md-switch>
             </md-button>
         </md-list-item>
-        <md-list-item role="listitem">
-            <md-button class="md-list-item-content md-primary md-raised" ng-click="edit()">
-                Editar
+        <md-list-item>
+            <md-button class="md-list-item-content" ng-click="edit()">
+                <md-icon class="icon-content-black icon-content-black-ic_create_black_24dp"></md-icon>
+                <div class="md-inline-list-icon-label">Editar</div>
             </md-button>
         </md-list-item>
-        <md-list-item role="listitem">
-            <div>
-                <md-switch ng-model="isAdmin" aria-label="Administrador" ng-change="setAsAdmin()"></md-switch>
-                <md-tooltip>Establecer como Admin.</md-tooltip>
-            </div>
+        <md-list-item>
+            <md-button class="md-list-item-content" ng-click="trash()">
+                <md-icon class="icon-action-black icon-action-black-ic_delete_black_24dp"></md-icon>
+                <div class="md-inline-list-icon-label">Mover a la papelera</div>
+            </md-button>
         </md-list-item>
     </md-list>
 </md-bottom-sheet>

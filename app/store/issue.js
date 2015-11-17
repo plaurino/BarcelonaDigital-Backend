@@ -23,6 +23,10 @@
             return $http.get(factory.api_url + '/issues/' + id);
         };
 
+        factory.trash = function () {
+            return $http.get(factory.api_url + '/issues/trash');
+        };
+
         factory.create = function () {
             return $http.post(factory.api_url + '/issues/', { auto: true });
         };
