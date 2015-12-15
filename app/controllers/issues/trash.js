@@ -23,7 +23,7 @@
         $scope.getAll = function() {
             issueService.trash()
                 .success(function(res){
-                    console.log(res.issues);
+                    //console.log(res.issues);
                     $scope.issues = res.issues;
                     $scope.loading = false;
                     $scope.error = false;

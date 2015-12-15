@@ -47,8 +47,15 @@ routeMap = [{
         url: '/users',
         templateUrl: "templates/users/list.html",
         controller: 'users.listController'
-    },
-    {
+    },{
+        url: '/users/create',
+        templateUrl: "templates/users/edit.html",
+        controller: 'users.editController'
+    },{
+        url: '/users/:id',
+        templateUrl: "templates/users/edit.html",
+        controller: 'users.editController'
+    },{
         url: '/issues',
         templateUrl: "templates/issues/list.html",
         controller: 'issues.listController'

@@ -6,3 +6,5 @@ app.directive('bdSidebar',require('./bdSidebar'));
 app.directive('menuLink',require('./menuLink'));
 app.directive('menuSection',require('./menuSection'));
 app.directive('popupMenu',require('./popupMenu'));
+app.directive('compareTo',require('./compareTo'));
+app.directive('checkUsername',require('./checkUsername'));

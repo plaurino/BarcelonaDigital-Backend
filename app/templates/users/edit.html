@@ -1,0 +1,69 @@
+<div layout="row" flex layout-fill layout-align="center center">
+    <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
+        <md-card-content>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Nuevo usuario</span>
+                </h2>
+                <span flex></span>
+                <div class="status" layout="column" layout-sm="column" layout-align="center center">
+                    <div class="current-status" flex>
+                    </div>
+                    <div class="info" ng-show="!loading" flex></div>
+                </div>
+            </md-toolbar>
+            <md-content>
+                <div layout layout-padding ng-show="!error && loading">
+                    <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                </div>
+                <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
+                <div class="issue-edit-container" ng-show="!error">
+
+                    <form name="editForm" ng-submit="save(true)" enctype='multipart/form-data'>
+
+                        <div layout>
+                            <md-input-container layout="column" flex-sm="100"  flex-gt-sm="70" flex-gt-md="70" flex-gt-lg="70">
+                                <label>Nombre de usuario</label>
+                                <input type="email" name="username" ng-model="user.username" required check-username ng-disabled="!isNewRow">
+                                <div ng-messages="editForm.username.$error">
+                                    <div ng-message="required" ng-show="editForm.username.$error.required">Este campo es requerido.</div>
+                                    <div ng-message="required" ng-show="editForm.username.$error.email">Ingresa una cuenta de email valida.</div>
+                                    <div ng-message="required" ng-show="editForm.username.$error.uniqueUsername">El usuario ingresado ya existe. Por favor ingrese otro.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout>
+                            <md-input-container layout="column" flex-sm="100"  flex-gt-sm="50" flex-gt-md="50" flex-gt-lg="50">
+                                <label>Contraseña</label>
+                                <input type="password" name="password" ng-model="user.password" required>
+                                <div ng-messages="editForm.password.$error">
+                                    <div ng-message="required" ng-show="editForm.password.$error.required">Este campo es requerido.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container layout="column" flex-sm="100"  flex-gt-sm="50" flex-gt-md="50" flex-gt-lg="50">
+                                <label>Repetir Contraseña:</label>
+                                <input type="password" name="repeatPassword" ng-model="user.repeatPassword" required compare-to="user.password">
+                                <div ng-messages="editForm.repeatPassword.$error">
+                                    <div ng-message="required" ng-show="editForm.repeatPassword.$error.required">Este campo es requerido</div>
+                                    <div ng-message="required" ng-show="editForm.repeatPassword.$error.compareTo">Las contraseñas no coinciden</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+
+                        <div layout class="actions">
+                            <div flex></div>
+                            <md-input-container>
+                                <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-button>Guardar</md-button>
+                            </md-input-container>
+                        </div>
+                    </form>
+                </div>
+            </md-content>
+        </md-card-content>
+    </md-card>
+</div>

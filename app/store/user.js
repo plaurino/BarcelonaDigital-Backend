@@ -23,8 +23,12 @@
             return $http.get(factory.api_url + '/users/' + id);
         };
 
-        factory.create = function () {
-            return $http.post(factory.api_url + '/users/', { auto: true });
+        factory.create = function (user) {
+            return $http.post(factory.api_url + '/users/', { user: user });
+        };
+
+        factory.check = function (username) {
+            return $http.post(factory.api_url + '/users/check', { username: username });
         };
 
         factory.activate = function (user) {
