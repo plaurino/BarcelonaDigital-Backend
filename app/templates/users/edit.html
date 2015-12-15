@@ -8,6 +8,8 @@
                 <span flex></span>
                 <div class="status" layout="column" layout-sm="column" layout-align="center center">
                     <div class="current-status" flex>
+                        <span class="highlight circle highlight-facebook" ng-show="user.facebook_id">F</span>
+                        <span class="highlight circle highlight-google" ng-show="user.google_id">G</span>
                     </div>
                     <div class="info" ng-show="!loading" flex></div>
                 </div>

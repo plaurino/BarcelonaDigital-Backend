@@ -17,7 +17,11 @@
                         <div class="inactive-icon" ng-show="!user.active"></div>
                         <img src="assets/img/avatar.png" alt="avatar" hide-sm class="md-avatar">
                         <div class="md-list-item-text">
-                            <h3>{{user.username}} <span class="highlight highlight-primary" ng-show="user.admin">Admin</span></h3>
+                            <h3>{{user.username}}
+                                <span class="highlight highlight-primary" ng-show="user.admin">Admin</span>
+                                <span class="highlight circle highlight-facebook" ng-show="user.facebook_id">F</span>
+                                <span class="highlight circle highlight-google" ng-show="user.google_id">G</span>
+                            </h3>
                             <p>{{user.collections.length}} revistas en su colección.</p>
                         </div>
                         <md-button class="md-secondary md-icon-button" ng-click="showActions($event, user)" aria-label="Acciones">

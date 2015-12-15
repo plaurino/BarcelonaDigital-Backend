@@ -139,6 +139,20 @@ popup-menu .menu-list .md-button {
   color: #5cb85c;
 }
 
+.highlight-facebook {
+  color: #ffffff;
+  background: #3b5998;
+}
+
+.highlight-google {
+  color: #ffffff;
+  background: #dd4b39;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
 .controls .md-button.md-fab.md-fab-bottom-right {
   position: fixed;
 }
