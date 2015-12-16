@@ -52,6 +52,14 @@ routeMap = [{
         templateUrl: "templates/users/edit.html",
         controller: 'users.editController'
     },{
+        url: '/users/subscriptions/:id',
+        templateUrl: "templates/users/editSubscription.html",
+        controller: 'users.editSubscriptionController'
+    },{
+        url: '/users/subscriptions',
+        templateUrl: "templates/users/subscriptions.html",
+        controller: 'users.subscriptionsController'
+    },{
         url: '/users/:id',
         templateUrl: "templates/users/edit.html",
         controller: 'users.editController'

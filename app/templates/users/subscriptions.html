@@ -1,0 +1,38 @@
+<div layout="row" flex layout-fill layout-align="center center">
+    <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
+        <md-card-content>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Suscripciones</span>
+                </h2>
+            </md-toolbar>
+            <md-content>
+                <div layout layout-padding ng-show="!error && loading">
+                    <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                </div>
+                <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
+                <md-list>
+                    <md-list-item class="md-2-line" ng-click="edit(subscription)" ng-repeat="subscription in subscriptions">
+                        <div class="active-icon" ng-show="subscription.active"></div>
+                        <div class="inactive-icon" ng-show="!subscription.active"></div>
+                        <div class="md-list-item-text">
+                            <h3>
+                                {{subscription.owner.username}}
+                                <span class="highlight highlight-warning" ng-show="subscription.status == 'Pending' || subscription.status == 'pending'">Pendiente</span>
+                                <span class="highlight highlight-success" ng-show="subscription.status == 'authorized' || subscription.status == 'approved'">Aprobado</span>
+                            </h3>
+                            <h4>{{(getSubscriptionPlan(subscription.duration)).description}}</h4>
+                            <p>{{subscription.owner.collections.length}} revistas en su colección.</p>
+                        </div>
+                        <div class="md-secondary md-icon-button">
+                            <span class="highlight highlight-pp" ng-show="subscription.payment.platform.paypal">PAYPAL</span>
+                            <span class="highlight highlight-mp" ng-show="subscription.payment.platform.mercadopago">MERCADOPAGO</span>
+                        </div>
+                        </md-item-content>
+                        <md-divider ng-if="$index !== (subscriptions.length-1)" inset></md-divider>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-card-content>
+    </md-card>
+</div>

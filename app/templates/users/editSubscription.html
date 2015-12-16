@@ -1,0 +1,70 @@
+<div layout="row" flex layout-fill layout-align="center center">
+    <md-card flex-sm="98" flex-gt-sm="90" flex-gt-md="80" flex-gt-lg="60">
+        <md-card-content>
+            <md-toolbar class="md-theme-light md-accent">
+                <h2 class="md-toolbar-tools">
+                    <span>Suscripción</span>
+                </h2>
+                <span flex></span>
+                <div class="status" layout="column" layout-sm="column" layout-align="center center">
+                    <div class="current-status" flex>
+                        <span class="highlight highlight-pp" ng-show="subscription.payment.platform.paypal">PAYPAL</span>
+                        <span class="highlight highlight-mp" ng-show="subscription.payment.platform.mercadopago">MERCADOPAGO</span>
+                        <span class="highlight highlight-warning" ng-show="subscription.status == 'Pending' || subscription.status == 'pending'">Pendiente</span>
+                        <span class="highlight highlight-success" ng-show="subscription.status == 'authorized' || subscription.status == 'approved'">Aprobado</span>
+                    </div>
+                    <div class="info" ng-show="!loading" flex></div>
+                </div>
+            </md-toolbar>
+            <md-content>
+                <div layout layout-padding ng-show="!error && loading">
+                    <md-progress-linear class="md-warn" md-mode="indeterminate"></md-progress-linear>
+                </div>
+                <div layout layout-padding ng-show="error">Ha ocurrido un error intentalo nuevamente mas tarde.</div>
+                <div class="issue-edit-container" ng-show="!error">
+
+                    <form name="editForm" ng-submit="save(true)" enctype='multipart/form-data'>
+
+                        <div class="md-padding" layout-align="center center" layout="column">
+                            <h2 class="md-title">{{subscription.owner.username}}</h2>
+
+                            <div layout="row" class="md-padding">
+                                <p>{{(getSubscriptionPlan(subscription.duration)).description}}</p>
+                            </div>
+
+                            <div layout="row" class="md-padding">
+                                <div layout="column">
+                                    <md-datepicker ng-model="subscription.created_at" md-placeholder="Suscrito desde" disabled></md-datepicker>
+                                </div>
+                                <div layout="column">
+                                    <md-datepicker ng-model="subscription.expired_at" md-placeholder="Suscrito hasta" disabled></md-datepicker>
+                                </div>
+                            </div>
+
+                            <p>Actualmente hay {{subscription.owner.collections.length}} revistas en su colección.</p>
+
+                            <div layout="row" class="md-padding">
+                                <div class="issue" ng-repeat="issue in collections.issues">
+                                    <img src="{{issue.cover.thumb}}">
+                                </div>
+                                <div class="issue add-issue" layout="column" layout-align="center center">
+                                    <p>Agregar<br>revista</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div layout class="actions">
+                            <div flex></div>
+                            <md-input-container>
+                                <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
+                            </md-input-container>
+                            <md-input-container>
+                                <md-button>Guardar</md-button>
+                            </md-input-container>
+                        </div>
+                    </form>
+                </div>
+            </md-content>
+        </md-card-content>
+    </md-card>
+</div>

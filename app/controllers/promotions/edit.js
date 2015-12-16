@@ -44,7 +44,7 @@
                     );
                 });
 
-            subscriptionService.getAll()
+            subscriptionService.getAllPlans()
                 .success(function(res){
                     var arr = [];
                     for (var prop in res) {

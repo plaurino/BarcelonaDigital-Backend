@@ -15,12 +15,16 @@
 
         factory.api_url = "{@= LET.api_url @}";
 
-        factory.getAll = function () {
+        factory.getAllPlans = function () {
             return $http.get(factory.api_url + '/subscriptions/plans');
         };
 
+        factory.getAll= function () {
+            return $http.get(factory.api_url + '/admin/subscriptions');
+        };
+
         factory.get = function (id) {
-            return $http.get(factory.api_url + '/subscriptions/' + id);
+            return $http.get(factory.api_url + '/admin/subscriptions/' + id);
         };
 
         return factory;
