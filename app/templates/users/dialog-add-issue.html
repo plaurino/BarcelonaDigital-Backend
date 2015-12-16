@@ -1,0 +1,37 @@
+<md-dialog aria-label="Agregar revista"  ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Agregar revista</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon class="icon-content-white icon-content-white-ic_clear_white_24dp" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p>Seleccione las revistas que desea agregar a la suscripción:</p>
+                <div layout layout-align="center center">
+                    <div class="dialog-issues" layout="column">
+                        <div ng-repeat="issue in issues">
+                            <md-checkbox ng-model="issue.selected" aria-label="Checkbox">
+                                <img src="{{issue.cover.thumb || 'assets/img/blank_issue.png'}}" alt="{{issue.title}}" width="170" height="208">
+                                <span>{{issue.title}}</span>
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Cancelar
+            </md-button>
+            <md-button ng-click="save()" style="margin-right:20px;">
+                Actualizar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

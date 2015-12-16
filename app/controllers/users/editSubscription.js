@@ -10,13 +10,14 @@
 /* @ngInject */
 
 (function() {
-    module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, $location, subscriptionService, collectionService) {
+    module.exports = function($scope, $routeParams, $mdToast, $mdBottomSheet, $mdDialog, $location, $mdMedia, subscriptionService, collectionService) {
 
         $scope.subscription = {};
         $scope.collections = [];
         $scope.loading = true;
         $scope.error = false;
         $scope.subscription_plan_types = [];
+        var parentScope = $scope;
 
         $scope.init = function() {
 
@@ -65,9 +66,79 @@
             }
         };
 
-        $scope.save = function(redirect) {
-            $scope.loading = true;
+        $scope.addIssue = function() {
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: 'templates/users/dialog-add-issue.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose:true,
+                fullscreen: useFullScreen
+            });
         };
+
+        function DialogController($scope, $mdDialog, issueService) {
+            $scope.issues = [];
+            $scope.currentCollection = angular.copy(parentScope.collections);
+            $scope.itemsSelected = $scope.currentCollection.issues || [];
+
+            $scope.checkItems = function() {
+                for(var j=0; j < $scope.issues.length; j++) {
+                    for (var i = 0; i < $scope.itemsSelected.length; i++) {
+                        if($scope.issues[j]._id === $scope.itemsSelected[i]._id) {
+                            $scope.issues[j].selected = true;
+                        }
+                    }
+                }
+            };
+
+            $scope.hide = function() {
+                $mdDialog.hide();
+            };
+
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
+
+            $scope.save = function(){
+                var collection = angular.copy($scope.currentCollection);
+                collection.issues = [];
+                for (var i = 0; i < $scope.issues.length; i++) {
+                    if($scope.issues[i].selected)
+                        collection.issues.push($scope.issues[i]._id);
+                };
+
+                collectionService.edit(collection)
+                    .success(function(res) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Se asignaron las revistas exitosamente.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                        $scope.hide();
+                        parentScope.init();
+                    })
+                    .error(function(res) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .content('Ha ocurrido un error. Intentelo nuevamente mas tarde.')
+                                .position('top right')
+                                .hideDelay(3000)
+                        );
+                    });
+            };
+
+            $scope.init = function() {
+                issueService.getAll('/status/published')
+                    .success(function(res) {
+                        $scope.issues = res.issues;
+                        $scope.checkItems();
+                    });
+            };
+
+            $scope.init();
+        }
 
         $scope.cancel = function($event) {
             $event.preventDefault();

@@ -15,8 +15,11 @@
 
         factory.api_url = "{@= LET.api_url @}" + "/admin";
 
-        factory.getAll = function () {
-            return $http.get(factory.api_url + '/issues');
+        factory.getAll = function (filter) {
+            if(filter === undefined) {
+                filter = '';
+            }
+            return $http.get(factory.api_url + '/issues' + filter);
         };
 
         factory.get = function (id) {

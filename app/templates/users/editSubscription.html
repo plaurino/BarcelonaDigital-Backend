@@ -43,12 +43,13 @@
 
                             <p>Actualmente hay {{subscription.owner.collections.length}} revistas en su colección.</p>
 
-                            <div layout="row" class="md-padding">
+                            <div class="md-padding">
                                 <div class="issue" ng-repeat="issue in collections.issues">
-                                    <img src="{{issue.cover.thumb}}">
+                                    <img src="{{issue.cover.thumb || 'assets/img/blank_issue.png'}}" width="150" height="184">
+                                    <span>{{issue.title}}</span>
                                 </div>
-                                <div class="issue add-issue" layout="column" layout-align="center center">
-                                    <p>Agregar<br>revista</p>
+                                <div class="issue add-issue" ng-click="addIssue()" layout="column" layout-align="center center">
+                                    <p>Actualizar<br>revistas</p>
                                 </div>
                             </div>
 
@@ -56,10 +57,7 @@
                         <div layout class="actions">
                             <div flex></div>
                             <md-input-container>
-                                <md-button type="button" ng-click="cancel($event)">Cancelar</md-button>
-                            </md-input-container>
-                            <md-input-container>
-                                <md-button>Guardar</md-button>
+                                <md-button type="button" ng-click="cancel($event)">Volver a suscripciones</md-button>
                             </md-input-container>
                         </div>
                     </form>

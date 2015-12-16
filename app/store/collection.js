@@ -19,6 +19,10 @@
             return $http.get(factory.api_url + '/collections/' + id);
         };
 
+        factory.edit = function (collection) {
+            return $http.post(factory.api_url + '/collections', { collection: collection });
+        };
+
         return factory;
     };
 

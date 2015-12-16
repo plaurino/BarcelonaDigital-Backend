@@ -312,3 +312,47 @@ md-button-sheet.md-list md-list-item, md-list-item .md-list-item-inner {
   text-align: center;
   cursor: pointer;
 }
+
+.add-issue:hover {
+  background-color: #585858;
+  color: #ffffff;
+}
+
+.dialog-issues {
+  width: 200px;
+}
+
+.dialog-issues img {
+  width: 100%;
+}
+
+.dialog-issues span {
+  padding: 10px;
+  position: absolute;
+  background: rgba(0,0,0,0.5);
+  width: 137px;
+  display: none;
+  color: #ffffff;
+  top: 1px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.issue span {
+  padding: 10px;
+  position: relative;
+  background: rgba(0,0,0,0.5);
+  width: 130px;
+  display: none;
+  color: #ffffff;
+  top: -186px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.dialog-issues:hover span,
+.issue:hover span{
+  display:block;
+}
