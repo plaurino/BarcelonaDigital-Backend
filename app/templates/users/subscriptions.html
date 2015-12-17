@@ -22,7 +22,7 @@
                                 <span class="highlight highlight-success" ng-show="subscription.status == 'authorized' || subscription.status == 'approved'">Aprobado</span>
                             </h3>
                             <h4>{{(getSubscriptionPlan(subscription.duration)).description}}</h4>
-                            <p>{{subscription.owner.collections.length}} revistas en su colección.</p>
+                            <p>{{subscription.owner.collections[0].issues.length}} revistas en su colección.</p>
                         </div>
                         <div class="md-secondary md-icon-button">
                             <span class="highlight highlight-pp" ng-show="subscription.payment.platform.paypal">PAYPAL</span>

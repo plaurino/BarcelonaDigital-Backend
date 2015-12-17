@@ -22,7 +22,7 @@
                                 <span class="highlight circle highlight-facebook" ng-show="user.facebook_id">F</span>
                                 <span class="highlight circle highlight-google" ng-show="user.google_id">G</span>
                             </h3>
-                            <p>{{user.collections.length}} revistas en su colección.</p>
+                            <p>{{user.collections[0].issues.length}} revistas en su colección.</p>
                         </div>
                         <md-button class="md-secondary md-icon-button" ng-click="showActions($event, user)" aria-label="Acciones">
                             <md-icon class="icon-navigation-grey600 icon-navigation-grey600-ic_more_vert_grey600_24dp"></md-icon>
