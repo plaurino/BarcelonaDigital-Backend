@@ -297,6 +297,7 @@ md-button-sheet.md-list md-list-item, md-list-item .md-list-item-inner {
   width: 150px;
   float: left;
   margin: 3px;
+  height: 188px;
 }
 
 .issue img {
